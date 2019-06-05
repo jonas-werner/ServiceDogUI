@@ -13,6 +13,18 @@ from PIL import Image, ImageOps
 import json
 
 app = Flask(__name__)
+
+## VK adding this to make it easier identifying where we're running
+if 'VCAP_SERVICES' in os.environ:
+    m3api_server = "http://vk-m3engine.cfapps.io"
+    hapi_server = "http://handlers.cfapps.io"
+else:
+    m3api_server = "http://127.0.0.1:5050"
+    hapi_server = "http://127.0.0.1:5000"
+
+print(m3api_server, hapi_server)
+## VK end section
+
 my_uuid = str(uuid.uuid1())
 username = ""
 userstatus = "0"
@@ -204,13 +216,13 @@ def handlers():
     return resp
 
 
-@app.route('/searchhandler') # search page which submits to viewdog
+@app.route('/searchhandler') # search page which submits to viewhandler
 def searchhandler():
     resp = make_response(render_template('searchhandler.html', viewhandler="viewhandler"))
     return resp
 
 
-@app.route('/viewhandler', methods=['POST']) # displays result of dog ID search in searchdog
+@app.route('/viewhandler', methods=['POST']) # displays result of Handler ID search in searchhandler
 def viewhandler():
 
     global username
@@ -223,18 +235,19 @@ def viewhandler():
 
 
     userid = "admin"
-    sd_regid = request.form['handlerid']
+    h_id = request.form['handlerid']
 
-    url = 'http://servicedogwfe.cfapps.io/api/v1/handler/view'
+    m3api_uri = "/api/v1/handler/view"
+    url = (m3api_server+m3api_uri)
 
     # payload = {"userid": username,"sd_regid":sd_regid}
-    payload = {"userid": userid,"sd_regid":sd_regid}
+    payload = {"userid": userid,"h_id": h_id}
 
     # response = requests.post(url, payload).text
-    response = requests.get(url, params=payload)
-    print("RESPONSE: %s" % response)
+    m3api_response = requests.get(url, params=payload)
+    print("RESPONSE: %s" % m3api_response)
 
-    whatever = json.loads(response.content)
+    whatever = json.loads(m3api_response.content)
     # print whatever["sd_regid"]
     # print whatever["sd_name"]
 
