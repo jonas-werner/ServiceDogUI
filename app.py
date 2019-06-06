@@ -1,3 +1,10 @@
+# 2019-06-06
+# ServiceDogUI (User Interface) 
+# Version 0.xxxxx
+# Written by Grant, Veronique, Jonas
+#### Change line to trigger Jenkins build
+
+
 import uuid
 import time
 import os, sys
@@ -11,6 +18,7 @@ from werkzeug import secure_filename
 from PIL import Image, ImageOps
 #import hashlib
 import json
+
 
 app = Flask(__name__)
 
