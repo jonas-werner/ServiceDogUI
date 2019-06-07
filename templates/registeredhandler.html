@@ -36,26 +36,33 @@
             <!--Card content-->
             <div class="card-body">
 
-				<h1 class="animated fadeIn text-muted">LOGIN STATUS</h1>
+				<h1 class="animated fadeIn text-muted">HANDLER ADMINISTRATION</h1>
+				<br>
 				<hr>
-  				  <br>
-            <h4 class="animated fadeIn text-muted">Login successful.</h4>
-            <h4 class="animated fadeIn text-muted">Role: administrator</h4>
-            <p class="animated fadeIn text-muted"><b>Cookie ID: </b>{{ uuid }}</p>
-            <br>
+
+            <table><tr><td colspan=2><h3 class="animated fadeIn text-muted">HANDLER REGISTRATION</h3></td></tr>
+              <tr>
+                <td class="animated fadeIn text-muted">Registration status: </td><td class="animated fadeIn text-muted">{{ status }}</td>
+              </tr>
+              <tr>
+                <td class="animated fadeIn text-muted">Handler ID: </td><td class="animated fadeIn text-muted">{{ h_id }}</td>
+              </tr>
+            </table>
+  				  <br><br>
             <br>
             <a href="/" class="btn btn-indigo">Return to main page</a>
 
 					<hr>
 
-        </div>
-     </div>
-   </div>
-   <!--Grid column-->
-   </div>
-   <!--Grid row-->
-   </div>
-   <!-- Content -->
+          <!-- Main heading -->
+       </div>
+    </div>
+  </div>
+  <!--Grid column-->
+  </div>
+  <!--Grid row-->
+  </div>
+  <!-- Content -->
 
 
-   {% include 'tail.html' %}
+  {% include 'tail.html' %}

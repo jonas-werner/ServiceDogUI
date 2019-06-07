@@ -1,5 +1,5 @@
 # 2019-06-06
-# ServiceDogUI (User Interface) 
+# ServiceDogUI (User Interface)
 # Version 0.xxxxx
 # Written by Grant, Veronique, Jonas
 ## Change line to trigger Jenkins build
@@ -228,6 +228,7 @@ def searchhandler():
     return resp
 
 
+
 @app.route('/viewhandler', methods=['POST']) # displays result of Handler ID search in searchhandler
 def viewhandler():
 
@@ -279,7 +280,7 @@ def hregistrationaction():
     h_id = request.form['h_id']
 ##    print ("h_id requested for creation: %s" % h_id)
     m3api_uri = "/api/v1/handler/add"
-    
+
     url = (m3api_server+m3api_uri)
 
 ##    ## Upload pic to S3
@@ -309,7 +310,7 @@ def hregistrationaction():
         m3api_status = {'Result': 'Handler Add from UI - FAIL'}
 ##    print m3api_status
 
-    resp = make_response(render_template('registeredhandler.html', h_id=h_id))
+    resp = make_response(render_template('registeredhandler.html', h_id=h_id, status=m3api_status))
 
     return resp
 
