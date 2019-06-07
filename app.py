@@ -40,11 +40,13 @@ app = Flask(__name__)
 if 'VCAP_SERVICES' in os.environ:
 ##    m3api_server = "http://servicedogwfe.cfapps.io"
     m3api_server= "http://vk-m3engine.cfapps.io"
+    handlerapi_server = "http://handlers.cfapps.io"
 else:
     m3api_server = "http://127.0.0.1:5020"
+    handlerapi_server = "http://127.0.0.1:5000"
 
 print("workflow engine: %s" % m3api_server)
-
+print("handlerapi_server: %s" % handlerapi_server)
 
 my_uuid = str(uuid.uuid1())
 username = ""
@@ -271,9 +273,49 @@ def internal_server_error(e):
     return render_template('500.html'), 500
 
 
+##
+## Status APIs to check on all microservice dependencies
+##
+## Test Handlers status
+@app.route('/api/v1/handler/hstatus',methods=["GET"])
+def hstatus():
+    apiuri = "/api/v1/handler/hstatus"
 
+    handler_status = requests.get(handlerapi_server+apiuri)
+    if handler_status:
+        response = {'status': "Handlers API returns my ping"}
+        code = 200
+    else:
+        response = {'statuscode': 400}
+        code = 400
+    return jsonify(response), code
 
+## Test m3engine status
+@app.route('/api/v1/handler/m3estatus', methods=["GET"])
+def m3estatus():
+    apiuri = "/api/v1/handler/m3estatus"
 
+    handler_status = requests.get(m3api_server+apiuri)
+    if handler_status:
+        response = {'status': "m3engine API returns my ping"}
+        code = 200
+    else:
+        response = {'statuscode': 400}
+        code = 400
+    return jsonify(response), code
+
+## Test HandlersUI status
+@app.route('/api/v1/handler/huistatus', methods=["GET"])
+def huistatus():
+    response = {'status': "HandlersUI API up and running"}
+    statuscode = 200
+    return jsonify(response),statuscode
+##
+## End dependencies test
+##
+
+##
+## Begin Handlers UI and functions
 @app.route('/handlers')
 def handlers():
     # global userstatus
