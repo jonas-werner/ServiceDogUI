@@ -26,7 +26,7 @@ app = Flask(__name__)
 if 'VCAP_SERVICES' in os.environ:
     m3api_server = "http://servicedogwfe.cfapps.io"
 else:
-    m3api_server = "http://127.0.0.1:5050"
+    m3api_server = "http://127.0.0.1:5020"
 
 print("workflow engine: %s" % m3api_server)
 
@@ -320,4 +320,4 @@ def uid():
     return "Your user ID is : " + uuid
 
 if __name__ == "__main__":
-	app.run(debug=True, host='0.0.0.0', port=int(os.getenv('PORT', '5030')), threaded=True)
+	app.run(debug=False, host='0.0.0.0', port=int(os.getenv('PORT', '5030')), threaded=True)
