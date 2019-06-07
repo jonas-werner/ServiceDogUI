@@ -38,7 +38,8 @@ app = Flask(__name__)
 
 ## Identify where we're running
 if 'VCAP_SERVICES' in os.environ:
-    m3api_server = "http://servicedogwfe.cfapps.io"
+##    m3api_server = "http://servicedogwfe.cfapps.io"
+    m3api_server= "http://vk-m3engine.cfapps.io"
 else:
     m3api_server = "http://127.0.0.1:5020"
 
