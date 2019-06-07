@@ -12,13 +12,27 @@ import re
 import boto
 import redis
 import requests
-from flask import Flask, jsonify, render_template, redirect, request, url_for, make_response
+from flask import Flask, jsonify, render_template, redirect, request, url_for, make_response, session
 import flask
 from werkzeug import secure_filename
 from PIL import Image, ImageOps
 #import hashlib
 import json
+from UploadForm import UploadForm
+from boto.s3.connection import S3Connection
+from boto.s3.key import Key
 
+# declare environment variables
+ecs_endpoint = os.getenv('ecs_endpoint')
+ecs_access_key = os.getenv('ecs_access_key')
+ecs_secret_key = os.getenv('ecs_secret_key')
+ecs_bucket_name = os.getenv('ecs_bucket_name')
+fileuuid = uuid.uuid4()
+
+global dogsname
+dogsname = ''
+global handlersname
+handlersname = ''
 
 app = Flask(__name__)
 
@@ -181,37 +195,81 @@ def viewdog():
 
 @app.route('/registerdog', methods=['GET','POST'])
 def registerdog():
-    global uuid
-    resp = make_response(render_template('registerdog.html', registrationaction="registrationaction", uuid=uuid))
-    return resp
+# ''' Read the root document and load form '''
+    file = None
+    form = UploadForm()
+    if form.validate_on_submit():  # If form is valid store info in a session
+        session['endpoint'] = ecs_endpoint
+        session['access_key'] = ecs_access_key
+        session['secret_key'] = ecs_secret_key
+        session['bucket_name'] = ecs_bucket_name
+        session['dogsname'] = form.dogsname.data
+        session['handlersname'] = form.handlersname.data
+        url = ecs_upload(ecs_bucket_name, form)  # Upload object to ECS
+        session['signed_url'] = url
+        dogsname = str(form.dogsname.data)
+        handlersname = str(form.handlersname.data)
+        print "the dogs name is: " + dogsname
+        print "the handlers name is " + handlersname
+        return redirect(url_for('uploaded'))  # Once file is uploaded redirect to completed page
+    return render_template('index.html',
+                           form=form,
+                           endpoint=session.get(ecs_endpoint),
+                           access_key=session.get(ecs_access_key),
+                           secret_key=session.get(ecs_secret_key),
+                           bucket_name=session.get(ecs_bucket_name),
+                           file=file)
 
-@app.route('/registrationaction', methods=['POST']) # displays result of dog ID search in searchdog
-def registrationaction():
 
-    dogname = request.form['dogname']
-    dogpic  = request.form['dogpic']
+def ecs_upload(ecs_bucket_name, form):
+# ''' Upload the file to the ECS storage '''
 
-    # Get ID from dog registration service
-    dogid = "123abc"
+    filenameprefix = str(fileuuid) + " - "
+    filename = filenameprefix + secure_filename(form.file.data.filename)  # make sure the filename pass is safe
+    conn = S3Connection(aws_access_key_id=session['access_key'],
+                        aws_secret_access_key=session['secret_key'],
+                        host=session['endpoint'])
+    bucket_name = session['bucket_name']
+    is_bucket_present = conn.lookup(bucket_name)  # check if there is an existing bucket with the same name
+    if is_bucket_present is None:  # if there are no buckets, create one
+        conn.create_bucket(bucket_name)
+    bucket = conn.get_bucket(bucket_name)  # get the bucket
+    k = Key(bucket)  # get an object key for it
 
-    # Upload pic to S3
-    s3_access_key_id    = ''
-    s3_secret_key       = ''
+    k.key = filename
+    k.set_contents_from_file(form.file.data)  # store the content in ECS
+    expire_time = int(app.config['EXPIRE_TIME'])
+    url = conn.generate_url(expires_in=expire_time,
+                            method='GET',
+                            bucket=bucket_name,
+                            key=k.key)
 
-    session = boto.connect_s3(s3_access_key_id, s3_secret_key, host='s3.us-east-1.amazonaws.com')
+    print dogsname
+    # placeholder for finding a way to set metadata tags using set_metadata
 
-    bname = 'jwr-piedpiper-01'
-    b = session.get_bucket(bname)
+    return url
 
 
 
-    k = b.new_key(dogpic)
-    k.set_metadata('dogid', dogid)
-    k.set_contents_from_filename(dogpic)
-    k.set_acl('public-read')
+@app.route('/uploaded', methods=['GET'])
+def uploaded():
+# ''' Display a page with the link to the uploaded object '''
+    sign_url = session['signed_url']
+    return render_template('uploaded.html', sign_url=sign_url, expire_at=app.config['EXPIRE_TIME'])
 
-    resp = make_response(render_template('registered.html', dogid=dogid))
-    return resp
+
+@app.errorhandler(404)
+def page_not_found(e):
+    ''' Display the page no found message '''
+    return render_template('404.html'), 400
+
+
+@app.errorhandler(500)
+def internal_server_error(e):
+    ''' Display the server error message '''
+    return render_template('500.html'), 500
+
+
 
 
 
