@@ -22,16 +22,14 @@ import json
 
 app = Flask(__name__)
 
-## VK adding this to make it easier identifying where we're running
+## Identify where we're running
 if 'VCAP_SERVICES' in os.environ:
     m3api_server = "http://vk-m3engine.cfapps.io"
-    hapi_server = "http://handlers.cfapps.io"
 else:
     m3api_server = "http://127.0.0.1:5050"
-    hapi_server = "http://127.0.0.1:5000"
 
-print(m3api_server, hapi_server)
-## VK end section
+print("workflow engine: %s" % m3api_server)
+
 
 my_uuid = str(uuid.uuid1())
 username = ""
@@ -265,7 +263,31 @@ def viewhandler():
 
     return resp
 
+## Registration page that submits a form to hregistrationaction
+@app.route('/registerhandler', methods=['GET','POST'])
+def registerhandler():
+##    global uuid
+##    resp = make_response(render_template('registerhandler.html', hregistrationaction="hregistrationaction", uuid=uuid))
+##    return resp
+##
+##@app.route('/hregistrationaction', methods=['POST']) # displays result of handler registration
+##def hregistrationaction():
 
+    outstring = ""
+    allvalues = request.form
+    print allvalues
+    
+    m3api_uri = "/api/v1/handler/add"
+    url = (m3api_server+m3api_uri)
+
+    m3api_response = requests.post(url, data=allvalues)
+    print ("m3engine response: %s" % m3api_response)
+    
+    if m3api_response:
+        resp = {'Result': 'Handler Add from UI - SUCCESS'}
+    else:
+        resp = {'Result': 'Handler Add from UI - FAIL'}
+    return jsonify(resp)
 
 
 @app.route('/uid')
@@ -274,4 +296,4 @@ def uid():
     return "Your user ID is : " + uuid
 
 if __name__ == "__main__":
-	app.run(debug=True, host='0.0.0.0', port=int(os.getenv('PORT', '5000')), threaded=True)
+	app.run(debug=False, host='0.0.0.0', port=int(os.getenv('PORT', '5030')), threaded=True)
