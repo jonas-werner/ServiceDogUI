@@ -1,4 +1,2 @@
-.git/objects/pack/pack-ea7b127b1b5a21a18046abc103e80f16c24c900e.pack
 .git/*
-.git/objects/*
 *.pyc
