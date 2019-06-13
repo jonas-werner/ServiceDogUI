@@ -1,4 +1,4 @@
-session1;Welcome and Keynotes;Various Presenters;1463360100;Kendall;
+session1;Welcome and Keynotes;Various Presenters;1463360100;Kendal;
 session2;Brocade Keynote;Tim Lees;1463368800;Kendall;Join us to learn what Brocade has been up to
 session3;How FAST can FLASH get;Scott Dougherty;1463370900;Kendall;Is this the beginning or the end of the fastest Flash platform on the universe? Come and learn about what makes DSSD so different and so compelling that EMC had to create a new category of storage for the world to see. In this session you will get a view of what was announced at EMC World with respect to DSSD Solutions and how this new category of Flash will change in the future.
 session4;Super Simple Backups - Database Edition;Mike van der Steen;1463370900;Wamberal;"Knowing that all backup and database administrators 'love' to work with each other, there must be a better way for the DBA to protect their own data. Time to poke a little fun about the backup and DBA relationship. This session will provide an overview on how easy 'Super Simple' it is to protect databases direct to Data Domain."
