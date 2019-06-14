@@ -40,17 +40,30 @@
 				<hr>
 
         {% if userstatus == "0" %}
-        <a href="searchdog" class="btn btn-indigo">VERIFY DOG STATUS</a>
+        <a href="searchdog" class="btn btn-indigo">VERIFY SERVICE ANIMAL STATUS</a>
         <br><br>
         {% else %}
-        <p class="animated fadeIn text-muted">The below quick-links are available to verify status of Service Dogs & Handlers. Please scan ID tag and enter the resulting code on the following page.
+        <p class="animated fadeIn text-muted">The below administration options are available to verify status, create and modify records of both Service Dogs & Handlers. For quick ID data entry, please scan ID tag and enter the resulting code on the search page.
         </p>
+
         <table width=300 align=center>
-           <tr>
-             <td align=center><a href="searchdog" class="btn btn-indigo">VERIFY DOG STATUS</a></td>
-             <td align=center><a href="registerdog" class="btn btn-indigo">CREATE NEW REGISTRATION</a></td>
-           </tr>
+          <tr>
+             <td align=left><a href="searchdog" class="btn btn-indigo">DOG SEARCH AND VERIFICATION</a></td>
+          </tr>
+          <tr>
+             <td align=left><a href="adddog" class="btn btn-indigo">CREATE NEW REGISTRATION</a></td>
+          </tr>
+          <tr>
+            <td align=left><a href="editdog" class="btn btn-indigo">MODIFY REGISTRATION DETAILS</a></td>
+          </tr>
+          <tr>
+             <td align=left><a href="documents" class="btn btn-grey">VIEW DOGGUMENTATION</a></td>
+          </tr>
+          <tr>
+            <td align=left><a href="deldog" class="btn btn-red">REMOVE DOG REGISTRATION</a></td>
+          </tr>
        </table>
+
         <br><br>
         {% endif %}
         <!-- Main heading -->
