@@ -32,7 +32,12 @@ if 'VCAP_SERVICES' in os.environ:
     # CREDENTIALS = VCAP_SERVICES["rediscloud"][0]["credentials"]
     # r = redis.Redis(host=CREDENTIALS["hostname"], port=CREDENTIALS["port"], password=CREDENTIALS["password"])
     r = redis.Redis(host="<cut from github push>", port="<cut from github push>", password="<cut from github push>")
-
+    ## VK: Moving my code's not cool
+    ## Begin Handlers related stuff
+##    # m3api_server = "http://servicedogwfe.cfapps.io"
+##    m3api_server= "http://vk-m3engine.cfapps.io"
+    handlerapi_server = "http://handlers.cfapps.io"
+    ## End Handlers related stuff
 else:
     r = redis.Redis(host='192.168.2.4', port='6379')
     ## Using local MongoDB for Dev. In real life I will have to do API call to M3engine
@@ -40,7 +45,10 @@ else:
     DB_NAME = "dogs"
     global db
     db = DB_ENDPOINT[DB_NAME]
-
+    ## Begin Handlers related stuff
+##    m3api_server = "http://127.0.0.1:5020"
+    handlerapi_server = "http://127.0.0.1:5000"
+    ## End Handlers related stuff
 
 # declare environment variables
 # Grant's ECS info
@@ -74,16 +82,16 @@ handlersname = ''
 
 
 ## Identify where we're running
-# if 'VCAP_SERVICES' in os.environ:
-if 1 == 1:
-    # m3api_server = "http://servicedogwfe.cfapps.io"
-    m3api_server= "http://vk-m3engine.cfapps.io"
-    handlerapi_server = "http://handlers.cfapps.io"
-else:
-    m3api_server = "http://127.0.0.1:5020"
-    handlerapi_server = "http://127.0.0.1:5000"
+### if 'VCAP_SERVICES' in os.environ:
+##if 1 == 1:
+##    # m3api_server = "http://servicedogwfe.cfapps.io"
+##    m3api_server= "http://vk-m3engine.cfapps.io"
+##    handlerapi_server = "http://handlers.cfapps.io"
+##else:
+##    m3api_server = "http://127.0.0.1:5020"
+##    handlerapi_server = "http://127.0.0.1:5000"
 
-print("workflow engine: %s" % m3api_server)
+##print("workflow engine: %s" % m3api_server)
 print("handlerapi_server: %s" % handlerapi_server)
 
 my_uuid = str(uuid.uuid1())
@@ -328,19 +336,20 @@ def hstatus():
         code = 400
     return jsonify(response), code
 
+## VK 2019-06-14: Since we're bypassing the WFE engine for now, no need for this check
 ## Test m3engine status
-@app.route('/api/v1/handler/m3estatus', methods=["GET"])
-def m3estatus():
-    apiuri = "/api/v1/handler/m3estatus"
-
-    handler_status = requests.get(m3api_server+apiuri)
-    if handler_status:
-        response = {'status': "m3engine API returns my ping"}
-        code = 200
-    else:
-        response = {'statuscode': 400}
-        code = 400
-    return jsonify(response), code
+##@app.route('/api/v1/handler/m3estatus', methods=["GET"])
+##def m3estatus():
+##    apiuri = "/api/v1/handler/m3estatus"
+##
+##    handler_status = requests.get(m3api_server+apiuri)
+##    if handler_status:
+##        response = {'status': "m3engine API returns my ping"}
+##        code = 200
+##    else:
+##        response = {'statuscode': 400}
+##        code = 400
+##    return jsonify(response), code
 
 ## Test HandlersUI status
 @app.route('/api/v1/handler/huistatus', methods=["GET"])
