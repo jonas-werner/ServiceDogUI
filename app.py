@@ -34,7 +34,7 @@ if 'VCAP_SERVICES' in os.environ:
     r = redis.Redis(host="<cut from github push>", port="<cut from github push>", password="<cut from github push>")
     ## VK: Moving my code's not cool
     ## Begin Handlers related stuff
-##    # m3api_server = "http://servicedogwfe.cfapps.io"
+##    m3api_server = "http://servicedogwfe.cfapps.io"
 ##    m3api_server= "http://vk-m3engine.cfapps.io"
     handlerapi_server = "http://handlers.cfapps.io"
     ## End Handlers related stuff
@@ -58,17 +58,17 @@ else:
 # ecs_bucket_name = os.getenv('ecs_bucket_name')
 # fileuuid = uuid.uuid4()
 
-# Tanzil's ECS info
-ecs_access_key_id = '<cut from github push>'
-ecs_secret_key = '<cut from github push>'
-## We can now extract "namespace" from the access key
-namespace = ecs_access_key_id.split('@')[0]
-
-session = boto.connect_s3(ecs_access_key_id, ecs_secret_key, host='object.ecstestdrive.com')
-bname = 'dogphotos'
-b = session.get_bucket(bname)
-print "Bucket is: " + str(b)
-
+### Tanzil's ECS info
+##ecs_access_key_id = '<cut from github push>'
+##ecs_secret_key = '<cut from github push>'
+#### We can now extract "namespace" from the access key
+##namespace = ecs_access_key_id.split('@')[0]
+##
+##session = boto.connect_s3(ecs_access_key_id, ecs_secret_key, host='object.ecstestdrive.com')
+##bname = 'dogphotos'
+##b = session.get_bucket(bname)
+##print "Bucket is: " + str(b)
+##
 app = Flask(__name__)
 app.config['ALLOWED_EXTENSIONS'] = set(['jpg', 'jpeg', 'JPG', 'JPEG'])
 
@@ -81,7 +81,7 @@ global handlersname
 handlersname = ''
 
 
-## Identify where we're running
+## VK: Identify where we're running
 ### if 'VCAP_SERVICES' in os.environ:
 ##if 1 == 1:
 ##    # m3api_server = "http://servicedogwfe.cfapps.io"
@@ -329,7 +329,7 @@ def hstatus():
 
     handler_status = requests.get(handlerapi_server+apiuri)
     if handler_status:
-        response = {'status': "Handlers API returns my ping"}
+        response = {'status': "UI API, remote Handlers API returns my ping"}
         code = 200
     else:
         response = {'statuscode': 400}
@@ -354,7 +354,7 @@ def hstatus():
 ## Test HandlersUI status
 @app.route('/api/v1/handler/huistatus', methods=["GET"])
 def huistatus():
-    response = {'status': "HandlersUI API up and running"}
+    response = {'status': "UI API, I am up and running"}
     statuscode = 200
     return jsonify(response),statuscode
 ##
@@ -388,25 +388,20 @@ def viewhandler():
         outstring += key + ":" + value + ";"
     print outstring
 
-
     userid = "admin"
     h_id = request.form['handlerid']
+    
+    api_server = handlerapi_server
+    api_uri = "/api/v1/handler/view"
+    url = (api_server+api_uri)
 
-    m3api_uri = "/api/v1/handler/view"
-    url = (m3api_server+m3api_uri)
-
-    # payload = {"userid": username,"sd_regid":sd_regid}
     payload = {"userid": userid,"h_id": h_id}
 
     # response = requests.post(url, payload).text
-    m3api_response = requests.get(url, params=payload)
-    print("RESPONSE: %s" % m3api_response)
+    api_response = requests.get(url, params=payload)
+    print("RESPONSE: %s" % api_response)
 
-    whatever = json.loads(m3api_response.content)
-    # print whatever["sd_regid"]
-    # print whatever["sd_name"]
-
-    # response = allvalues
+    whatever = json.loads(api_response.content)
 
     resp = make_response(render_template('viewhandler.html', handlerinfo=whatever))
 
@@ -614,4 +609,4 @@ def uid():
     return "Your user ID is : " + uuid
 
 if __name__ == "__main__":
-	app.run(debug=True, host='0.0.0.0', port=int(os.getenv('PORT', '5030')), threaded=True)
+	app.run(debug=False, host='0.0.0.0', port=int(os.getenv('PORT', '5030')), threaded=True)
