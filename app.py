@@ -43,8 +43,8 @@ import qrcode
 ## Declare environment variables
 ecs_access_key_id = os.environ['ECS_access_key'] 
 ecs_secret_key = os.environ['ECS_secret']
-# ecs_access_key_id = '131012345678905@ecstestdrive.emc.com'  
-# ecs_secret_key = 'i2EVQkYYFQW$RQ$EREGFD3to7WL1IDFxUrPWkpnG'
+# ecs_access_key_id = '131030155286710005@ecstestdrive.emc.com'  
+# ecs_secret_key = 'i2EVQkYY9MG+7JQqBjEMZ3to7WL1IDFxUrPWkpnG'
 ## We can now extract "namespace" from the access key
 namespace = ecs_access_key_id.split('@')[0]
 
