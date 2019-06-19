@@ -209,17 +209,6 @@ def viewdog():
     response = requests.get(url)
     dict_resp = json.loads(response.content)
 
-    ### This is a failed attempt by Alberto to display friendly field names instead of var names
-    ### Please DONT DELETE - DONT DELETE - DONT DELETE - DONT DELETE
-    # print dict_resp["dog"]
-    # friendlies = {u'registration_id':'Registration ID',u'pedigree':'Pedigree',\
-    #     u'vacc_status':'Vaccination Status',u'reg_status':'Registration Status',\
-    #     u'description':'Description',u'handler_id':'Handler ID',u'id':'ID',u'name':'Dog Name'}
-    # cleaned_resp = {}
-    # for k in dict_resp["dog"]:
-    #     cleaned_resp[friendlies[k]] = dict_resp[k]
-    # resp = make_response(render_template('viewdog.html', doginfo=cleaned_resp))
-
     photo = "http://" + namespace + ".public.ecstestdrive.com/" + bname + "/" + dogid + ".jpg"
     qrcode = "http://" + namespace + ".public.ecstestdrive.com/" + bname + "/" + dogid + "-qr.jpg"
 
@@ -480,16 +469,15 @@ def verify(dogid):
     #print dog_dict["dog"]["pedigree"]
     #print "we will use " + dogid + " to pull the photo from ECS "
     #print handler_dict["handler"]["first_name"]
-    print "we can use " + dog_dict["dog"]["handler_id"] + " to pull the photo from ECS "
+    # print "we can use " + dog_dict["dog"]["handler_id"] + " to pull the photo from ECS "
     dog_photo = "http://" + namespace + ".public.ecstestdrive.com/" + bname + "/" + dogid + ".jpg"
+    handler_name = handler_dict["handler"]["first_name"] + " " + handler_dict["handler"]["last_name"]
 
-    return """<h3>  Dog Name: {}<br>
-                    Pedigree: {}<br>
-                    Owner: {} {}<br>
-                    Dog photo: <br>
-                    <img src="{}">
-                <h3>""".format(dog_dict["dog"]["name"],dog_dict["dog"]["pedigree"], \
-        handler_dict["handler"]["first_name"], handler_dict["handler"]["last_name"], dog_photo)
+    resp = make_response(render_template('verify.html', \
+                    name=dog_dict["dog"]["name"],\
+                    pedigree=dog_dict["dog"]["pedigree"],\
+                    handler_name=handler_name, dog_photo=dog_photo))
+    return resp
 
 ############################
 # ECS and QRcode functions #
