@@ -29,36 +29,39 @@
          <div class="card">
             <!--Card content-->
             <div class="card-body">
-               <h1 class="animated fadeIn text-muted">Modification of {{ n }} complete</h1>
+               <h1 class="animated fadeIn text-muted">Modification complete</h1>
                   <table spacing=2>
                     <tr>
                       <td><p class="animated fadeIn text-muted">Dog ID:</p></td>
-                      <td><p class="animated fadeIn text-muted">{{ newdog }}</p></td>
+                      <td><p class="animated fadeIn text-muted">{{ dogid }}</p></td>
                     </tr>
                     <tr>
                       <td><p class="animated fadeIn text-muted">Dog name:</p></td>
-                      <td><p class="animated fadeIn text-muted">{{ n }}</p></td>
+                      <td><p class="animated fadeIn text-muted">{{ dog_details["name"] }}</p></td>
                     </tr>
                     <tr>
-                      <td><p class="animated fadeIn text-muted">Vaccination date:</p></td>
-                      <td><p class="animated fadeIn text-muted">{{ d }}</p></td>
+                        <td><p class="animated fadeIn text-muted">Pedigree:</p></td>
+                        <td><p class="animated fadeIn text-muted">{{ dog_details["pedigree"] }}</p></td>
+                    </tr>
+                    <tr>
+                        <td><p class="animated fadeIn text-muted">Description:</p></td>
+                        <td><p class="animated fadeIn text-muted">{{ dog_details["description"] }}</p></td>
                     </tr>
                     <tr>
                       <td><p class="animated fadeIn text-muted">Vaccination Status:</p></td>
-                      <td><p class="animated fadeIn text-muted">{{ s }}</p></td>
+                      <td><p class="animated fadeIn text-muted">{{ dog_details["vacc_status"] }}</p></td>
                     </tr>
                     <tr>
+                        <td><p class="animated fadeIn text-muted">Registration Status:</p></td>
+                        <td><p class="animated fadeIn text-muted">{{ dog_details["reg_status"] }}</p></td>
+                      </tr>
+                      <tr>
                       <td><p class="animated fadeIn text-muted">Handler ID:</p></td>
-                      <td><p class="animated fadeIn text-muted">{{ h }}</p></td>
+                      <td><p class="animated fadeIn text-muted">{{ dog_details["handler_id"] }}</p></td>
                     </tr>
                     <tr>
-                      <td colspan="2"><p class="animated fadeIn text-muted">Mugshot:</p></td>
-                    </tr>
-                    <tr>
-                      <td colspan="2"><img src="http://{{ namespace }}.public.ecstestdrive.com/dogphotos/{{ newdog }}" width=200></td>
-                    </tr>
-                    <tr>
-                      <td colspan="2"><p class="animated fadeIn text-muted">We should show here the QRcode as well. Its name will be based on the dogid as well</p></td>
+                      <td colspan="2"><p class="animated fadeIn text-muted">Photo:</p></td>
+                      <td colspan="2"><img src="{{ photo }}" width=200></td>
                     </tr>
                   </table>
 

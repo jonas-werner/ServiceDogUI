@@ -35,23 +35,35 @@
                   <table spacing=2>
                     <tr>
                       <td><p class="animated fadeIn text-muted">Dog Name</p></td>
-                      <td><input type="text" name="dog_name" style="width: 150px; height: 30px"></td>
+                      <td><input type="text" name="name" style="width: 150px; height: 30px"></td>
                     </tr>
                     <tr>
+                     <td><p class="animated fadeIn text-muted">Registration ID</p></td>
+                     <td><input type="text" name="registration_id" style="width: 150px; height: 30px"></td>
+                   </tr>
+                   <tr>
                       <td><p class="animated fadeIn text-muted">Handler ID</p></td>
                       <td><input type="text" name="handler_id" style="width: 150px; height: 30px"></td>
                     </tr>
                     <tr>
-                      <td><p class="animated fadeIn text-muted">Vaccination Date</p></td>
-                      <td><input type="date" name="vacc_date" value="2019-06-10"></td>
-                    </tr>
-                    <tr>
+                     <td><p class="animated fadeIn text-muted">Pedigree</p></td>
+                     <td><input type="text" name="pedigree" style="width: 150px; height: 30px"></td>
+                   </tr>
+                   <tr>
+                     <td><p class="animated fadeIn text-muted">Description</p></td>
+                     <td><input type="text" name="description" style="width: 150px; height: 30px"></td>
+                   </tr>
+                   <tr>
                       <td><p class="animated fadeIn text-muted">Vaccination Status</p></td>
-
-                      <td><p class="animated fadeIn text-muted"><input type="radio" name="vacc_status" value="current" checked="checked"> Current
-                      <input type="radio" name="vacc_status" value="expired"> Expired</p></td>
+                      <td><p class="animated fadeIn text-muted"><input type="radio" name="vacc_status" value="True" checked="checked"> Current
+                      <input type="radio" name="vacc_status" value="False"> Expired</p></td>
                     </tr>
                     <tr>
+                     <td><p class="animated fadeIn text-muted">Registration Status</p></td>
+                     <td><p class="animated fadeIn text-muted"><input type="radio" name="reg_status" value="True" checked="checked"> Current
+                     <input type="radio" name="reg_status" value="False"> Expired</p></td>
+                   </tr>
+                  <tr>
                       <td><p class="animated fadeIn text-muted">Upload a Photo (JPG/JPEG only)</p></td>
                       <td><input type="file" name="file"></td>
                     </tr>

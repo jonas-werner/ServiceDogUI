@@ -37,31 +37,52 @@
           			<table>
                   <tr>
                     <td><p class="animated fadeIn text-muted">Dog ID</p></td>
-                    <td><input type="hidden" name="dddogid" value={{dogid}}><input type="text" name="dogid" value={{dogid}}  readonly style="width: 150px; height: 30px"></td>
+                    <td>
+                      <!--Need to keep the dogid to use in the insert. I add it to the form with a 'name'-->
+                      <!--To display it, we use type=text readonly. Otherwise use the hidden widget-->
+                      <!--input type="hidden" name="dddogid" value={{dogid}}-->
+                      <input type="text" name="dogid" value={{dogid}}  readonly style="width: 150px; height: 30px"></td>
+                  <tr>
+                    <td><p class="animated fadeIn text-muted">Registration ID</p></td>
+                    <td><input type="text" name="registration_id" value={{ dog_details["registration_id"] }} readonly style="width: 150px; height: 30px"></td>
+                  </tr>
                   <tr>
                     <td><p class="animated fadeIn text-muted">Dog Name</p></td>
-                    <td><input type="text" name="dog_name" value={{name}}  readonly style="width: 150px; height: 30px"></td>
+                    <td><input type="text" name="name" value={{ dog_details["name"] }} style="width: 150px; height: 30px"></td>
                   </tr>
                   <tr>
+                    <td><p class="animated fadeIn text-muted">Pedigree</p></td>
+                    <td><input type="text" name="pedigree" value={{ dog_details["pedigree"] }} style="width: 150px; height: 30px"></td>
+                  </tr>
+                  <tr>
+                      <td><p class="animated fadeIn text-muted">Description</p></td>
+                      <td><input type="text" name="pedigree" value={{ dog_details["description"] }} style="width: 150px; height: 30px"></td>
+                    </tr>
+                    <tr>
                     <td><p class="animated fadeIn text-muted">Handler ID</p></td>
-                    <td><input type="text" name="handler_id" value={{hid}} style="width: 150px; height: 30px"></td>
-                  </tr>
-                  <tr>
-                    <td><p class="animated fadeIn text-muted">Vaccination Date</p></td>
-                    <td><input type="date" name="vacc_date" value={{vdate}}></td>
+                    <td><input type="text" name="handler_id" value={{ dog_details["handler_id"] }} style="width: 150px; height: 30px"></td>
                   </tr>
           			  <tr>
                     <td><p class="animated fadeIn text-muted">Vaccination Status</p></td>
-                    <td><p class="animated fadeIn text-muted">Current Vaccination status : {{vstatus}}</p></td>
+                    <td><p class="animated fadeIn text-muted">Current Vaccination status : {{ dog_details["vacc_status"] }}</p></td>
                   </tr>
                   <tr>
                     <td><p class="animated fadeIn text-muted">Select the new status:</p></td>
                     <td><p class="animated fadeIn text-muted"><input type="radio" name="vacc_status" value="current" checked="checked"> Current
                     <input type="radio" name="vacc_status" value="expired"> Expired</p></td>
                   </tr>
-                  <tr>
+          			  <tr>
+                      <td><p class="animated fadeIn text-muted">Registration Status</p></td>
+                      <td><p class="animated fadeIn text-muted">Current Registration status : {{ dog_details["reg_status"] }}</p></td>
+                    </tr>
+                    <tr>
+                      <td><p class="animated fadeIn text-muted">Select the new status:</p></td>
+                      <td><p class="animated fadeIn text-muted"><input type="radio" name="reg_status" value="current" checked="checked"> Current
+                      <input type="radio" name="reg_status" value="expired"> Expired</p></td>
+                    </tr>
+                    <tr>
                     <td><p class="animated fadeIn text-muted">Current photo is:</p></td>
-                    <td><img src="http://131030155286710005.public.ecstestdrive.com/dogphotos/{{photo}}"  width=200></td>
+                    <td><img src="{{ photo }}"  width=200></td>
                   </tr>
                   <tr>
                     <td><p class="animated fadeIn text-muted">Upload new Photo (JPG/JPEG only)</p></td>

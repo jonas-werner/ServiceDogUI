@@ -11,3 +11,5 @@ requests==2.20.0
 requests-oauthlib==0.6.1
 Flask-WTF==0.14.2
 Flask-Bootstrap==3.3.7.1
+pymongo==3.4.0
+qrcode==6.1
