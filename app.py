@@ -212,7 +212,7 @@ def viewdog():
     photo = "http://" + namespace + ".public.ecstestdrive.com/" + bname + "/" + dogid + ".jpg"
     qrcode = "http://" + namespace + ".public.ecstestdrive.com/" + bname + "/" + dogid + "-qr.jpg"
 
-    resp = make_response(render_template('viewdog.html', dog_details=dict_resp["dog"], photo=photo, qrcode=qrcode))
+    resp = make_response(render_template('viewdog.html', dogid=dogid, dog_details=dict_resp["dog"], photo=photo, qrcode=qrcode))
     return resp
 
 def str2bool(v):
