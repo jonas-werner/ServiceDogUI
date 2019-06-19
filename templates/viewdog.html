@@ -30,26 +30,22 @@
 
 
       <!--Grid column-->
-      <div class="col-md-6 mb-4 white-text text-center text-md-left">
+      <div class="col-md-6 mb-4 white-text text-md-left">
          <!--Card-->
          <div class="card">
             <!--Card content-->
             <div class="card-body">
-				<h1 class="animated fadeIn text-muted">DOG ADMINISTRATION</h1>
+				<h1 class="animated fadeIn text-muted">DOG INFO</h1>
 				<hr>
-            <h1 class="animated fadeIn text-muted">Dog info</h1>
               <table>
               {% for entry in doginfo %}
 
-                  <tr><td class="animated fadeIn text-muted" width=200><b>{{ entry }}<b></td><td class="animated fadeIn text-muted" >{{ doginfo[entry] }}</td></tr>
+                  <tr><td class="animated fadeIn text-muted" width=220><b>{{ entry }}<b></td><td class="animated fadeIn text-muted" >{{ doginfo[entry] }}</td></tr>
               {%endfor%}
-              <tr><td><img src=" {{ photo }} " width=200></td>
-              <tr><td><img src=" {{ qrcode }} " width=200></td>
+              <tr><td><img src=" {{ photo }} " width=220></td><td><img src=" {{ qrcode }} " width=220></td>
             </table>
 
-            <br><br>
             <a href="/" class="btn btn-indigo">Back to main menu</a>               
-				<hr>
 
           <!-- Main heading -->
        </div>
