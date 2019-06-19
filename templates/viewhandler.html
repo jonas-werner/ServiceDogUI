@@ -37,14 +37,23 @@
             <div class="card-body">
 				<h1 class="animated fadeIn text-muted">HANDLER ADMINISTRATION</h1>
 				<hr>
-				
-            <h3 class="animated fadeIn text-muted">Handler info</h3>
-              <table>
-              {% for entry in handlerinfo %}
-
-                  <tr><td class="animated fadeIn text-muted" width=200><b>{{ entry }}</b></td><td class="animated fadeIn text-muted">{{ handlerinfo[entry] }}</td></tr>
-              {%endfor%}
-
+            <table>
+                  <tr>
+                     <td class="animated fadeIn text-muted" width=50%>Handler ID:</td>
+                     <td class="animated fadeIn text-muted" width=50%>{{ h_id }}</td>
+                  </tr>
+                  <tr>
+                     <td class="animated fadeIn text-muted" width=50%>First Name:</td>
+                     <td class="animated fadeIn text-muted" width=50%>{{ handlerinfo["first_name"] }}</td>
+                  </tr>
+                  <tr>
+                     <td class="animated fadeIn text-muted" width=50%>Last Name:</td>
+                     <td class="animated fadeIn text-muted" width=50%>{{ handlerinfo["last_name"] }}</td>
+                  </tr>
+                  <tr>
+                     <td class="animated fadeIn text-muted" width=50%>Email:</td>
+                     <td class="animated fadeIn text-muted" width=50%>{{ handlerinfo["email"] }}</td>
+                  </tr>
             </table>
             <br><br>
             <a href="/" class="btn btn-indigo">Back to main menu</a>               

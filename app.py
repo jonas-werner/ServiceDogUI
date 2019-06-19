@@ -9,7 +9,6 @@ import time
 import os, sys
 import re
 import boto
-import redis
 import requests
 from flask import Flask, jsonify, render_template, redirect, request, url_for, make_response, session
 import flask
@@ -30,11 +29,9 @@ import qrcode
     # VCAP_SERVICES = json.loads(os.environ['VCAP_SERVICES'])
     # CREDENTIALS = VCAP_SERVICES["rediscloud"][0]["credentials"]
     # r = redis.Redis(host=CREDENTIALS["hostname"], port=CREDENTIALS["port"], password=CREDENTIALS["password"])
-    #r = redis.Redis(host="<cut from github push>", port="<cut from github push>", password="<cut from github push>")
 
 # else:
     # r = redis.Redis(host='127.0.0.1', port='6379')
-    # ## Using local MongoDB for Dev. In real life I will have to do API call to M3engine
     # DB_ENDPOINT = MongoClient('127.0.0.1:27017')
     # DB_NAME = "dogs"
     # global db
@@ -43,8 +40,6 @@ import qrcode
 ## Declare environment variables
 ecs_access_key_id = os.environ['ECS_access_key'] 
 ecs_secret_key = os.environ['ECS_secret']
-# ecs_access_key_id = '131030155286710005@ecstestdrive.emc.com'  
-# ecs_secret_key = 'i2EVQkYY9MG+7JQqBjEMZ3to7WL1IDFxUrPWkpnG'
 ## We can now extract "namespace" from the access key
 namespace = ecs_access_key_id.split('@')[0]
 
@@ -68,7 +63,6 @@ handlersname = ''
 ## Identify where we're running
 # if 'VCAP_SERVICES' in os.environ:
 if 1 == 1:
-    # m3api_server = "http://servicedogwfe.cfapps.io"
     m3api_server= "http://vk-m3engine.cfapps.io"
     handlerapi_server = "http://handlers.cfapps.io"
     #handler_api = "http://handlerservice.cfapps.io"
@@ -96,7 +90,6 @@ def menu():
     global userstatus
     # global uuid
     # global my_uuid
-
     # print("UUID STRING: %s" % my_uuid)
 
     uuid = request.cookies.get('uuid')
@@ -105,9 +98,7 @@ def menu():
     else:
         userstatus = "0"
 
-
     resp = make_response(render_template('main_menu.html', userstatus=userstatus, uuid=uuid))
-
     return resp
 
 @app.route('/loginform', methods=['GET','POST'])
@@ -264,15 +255,14 @@ def deldog():
 @app.route('/deldogprocess.html', methods=['POST'])
 def deldogprocess():
 
-    i = request.form['dogid']
+    dogid = request.form['dogid']
     ## We should do an API call to read dog details, display them and ask for confirmation
     ## ... but for now let's keep it simple. We will proceed with the deletion, right away
-    url = dog_api + "/api/v1.0/dog/" + i
+    url = dog_api + "/api/v1.0/dog/" + dogid
     api_resp = requests.delete(url)
-    #db.dogscollection.delete_one({"dogid" : i})
 
-    return """<h2>Your deletion request has been initiated ... and hopefully processed :-D
-    <br><a href="/">Back to main menu</a>"""
+    resp = make_response(render_template('dogdeleted.html', dogid=dogid))
+    return resp
 
 ### Edit dog. It's a 3 step workflow:
 #   1 - What dog you want edit (GET)
@@ -350,97 +340,88 @@ def viewhandler():
 
     response = requests.get(url)
     dict_resp = json.loads(response.content)
+    print dict_resp["handler"]
 
-    resp = make_response(render_template('viewhandler.html', handlerinfo=dict_resp["handler"]))
+    resp = make_response(render_template('viewhandler.html', handlerinfo=dict_resp["handler"], h_id=h_id))
     return resp
 
-# @app.route('/viewhandler', methods=['POST']) # displays result of Handler ID search in searchhandler
-# def viewhandler():
+### Add dog functions: GET and POST
+@app.route('/addhandler')
+def addhandler():
+    resp = make_response(render_template('newhandler.html'))
+    return resp
 
-#     global username
+@app.route('/addhandlerprocess.html', methods=['POST'])
+def addhandlerprocess():
 
-#     outstring = ""
-#     allvalues = sorted(request.form.items())
-#     for key,value in allvalues:
-#         outstring += key + ":" + value + ";"
-#     print outstring
+    handler_details = request.form.to_dict()
+    print handler_details
 
-#     userid = "admin"
-#     h_id = request.form['handlerid']
+    # Call the dog service to insert it and get a dogid back
+    url = handler_api + "/api/v1.0/handler"
+    api_resp = requests.post(url, json=handler_details)
+    dict_resp = json.loads(api_resp.content)
+    h_id = dict_resp["handler"]["id"]
+    
+    resp = make_response(render_template('handlerregistered.html', h_id=h_id, handler_details=handler_details))
+    return resp
 
-#     m3api_uri = "/api/v1/handler/view"
-#     url = (m3api_server+m3api_uri)
+### Delete dog: GET and POST
+@app.route('/delhandler')
+def delhandler():
+    resp = make_response(render_template('delhandler.html'))
+    return resp
 
-#     # payload = {"userid": username,"sd_regid":sd_regid}
-#     payload = {"userid": userid,"h_id": h_id}
+@app.route('/delhandlerprocess.html', methods=['POST'])
+def delhandlerprocess():
 
-#     # response = requests.post(url, payload).text
-#     m3api_response = requests.get(url, params=payload)
-#     print("RESPONSE: %s" % m3api_response)
+    i = request.form['h_id']
+    ## We should do an API call to read dog details, display them and ask for confirmation
+    ## ... but for now let's keep it simple. We will proceed with the deletion, right away
+    url = handler_api + "/api/v1.0/handler/" + i
+    api_resp = requests.delete(url)
 
-#     whatever = json.loads(m3api_response.content)
-#     # print whatever["sd_regid"]
-#     # print whatever["sd_name"]
-#     # response = allvalues
-
-#     resp = make_response(render_template('viewhandler.html', handlerinfo=whatever))
-#     return resp
+    resp = make_response(render_template('handlerdeleted.html', h_id=h_id))
+    return resp
 
 ## Registration page that submits a form to hregistrationaction
-@app.route('/registerhandler', methods=['GET','POST'])
-def registerhandler():
-    global uuid
-    # Let's create a unique handler ID
-    handler_counter = r.incr('counter_dog')
-    print "the handler counter is now: ", handler_counter
-    ## Create a new key that with the counter and pad with leading zeroes
-    ## d00001, d00002, ... We could use h00001 and so on for handlers
-    newhandler = 'h' + str(handler_counter).zfill(5)
-    print newhandler
-    resp = make_response(render_template('registerhandler.html', hregistrationaction="hregistrationaction", uuid=uuid, newhandler=newhandler))
-    return resp
+# @app.route('/registerhandler', methods=['GET','POST'])
+# def registerhandler():
+#     global uuid
+#     # Let's create a unique handler ID
+#     handler_counter = r.incr('counter_dog')
+#     print "the handler counter is now: ", handler_counter
+#     ## Create a new key that with the counter and pad with leading zeroes
+#     ## d00001, d00002, ... We could use h00001 and so on for handlers
+#     newhandler = 'h' + str(handler_counter).zfill(5)
+#     print newhandler
+#     resp = make_response(render_template('registerhandler.html', hregistrationaction="hregistrationaction", uuid=uuid, newhandler=newhandler))
+#     return resp
 
-@app.route('/hregistrationaction', methods=['POST']) # displays result of handler registration
-def hregistrationaction():
+# @app.route('/hregistrationaction', methods=['POST']) # displays result of handler registration
+# def hregistrationaction():
 
-    outstring = ""
-    allvalues = request.form
-##    print allvalues
-    h_id = request.form['h_id']
-##    print ("h_id requested for creation: %s" % h_id)
-    m3api_uri = "/api/v1/handler/add"
+#     outstring = ""
+#     allvalues = request.form
+# ##    print allvalues
+#     h_id = request.form['h_id']
+# ##    print ("h_id requested for creation: %s" % h_id)
+#     m3api_uri = "/api/v1/handler/add"
 
-    url = (m3api_server+m3api_uri)
+#     url = (m3api_server+m3api_uri)
 
-# Photo upload section ############################################
-    # myfile = request.files['h_picture']
-    # print myfile
-    # if myfile and allowed_file(myfile.filename):
-    #     ## Save it locally to the "/uploads" directory. Don't forget to create the DIR !!!
-    #     myfile.save(os.path.join("uploads", h_id))
-    #
-    #     ## Now let's upload it to ECS
-    #     print "Uploading " + h_id + " to ECS"
-    #     k = b.new_key(h_id)
-    #     k.set_contents_from_filename("uploads/" + h_id)
-    #     k.set_acl('public-read')
-    #
-    #     # Finally remove the file from our container. We don't want to fill it up ;-)
-    #     os.remove("uploads/" + h_id)
-# /Photo upload section ############################################
+#     m3api_response = requests.post(url, data=allvalues)
+# ##    print ("m3engine response: %s" % m3api_response)
 
-    m3api_response = requests.post(url, data=allvalues)
-##    print ("m3engine response: %s" % m3api_response)
+#     if m3api_response:
+#         m3api_status = {'Result': 'Handler Add from UI - SUCCESS'}
+#     else:
+#         m3api_status = {'Result': 'Handler Add from UI - FAIL'}
+# ##    print m3api_status
 
-    if m3api_response:
-        m3api_status = {'Result': 'Handler Add from UI - SUCCESS'}
-    else:
-        m3api_status = {'Result': 'Handler Add from UI - FAIL'}
-##    print m3api_status
+#     resp = make_response(render_template('registeredhandler.html', h_id=h_id, status=m3api_status))
 
-    resp = make_response(render_template('registeredhandler.html', h_id=h_id, status=m3api_status))
-
-    return resp
+#     return resp
 
 ##################################
 # External verification function #
@@ -473,8 +454,7 @@ def verify(dogid):
     dog_photo = "http://" + namespace + ".public.ecstestdrive.com/" + bname + "/" + dogid + ".jpg"
     handler_name = handler_dict["handler"]["first_name"] + " " + handler_dict["handler"]["last_name"]
 
-    resp = make_response(render_template('verify.html', \
-                    name=dog_dict["dog"]["name"],\
+    resp = make_response(render_template('verify.html', name=dog_dict["dog"]["name"],\
                     pedigree=dog_dict["dog"]["pedigree"],\
                     handler_name=handler_name, dog_photo=dog_photo))
     return resp

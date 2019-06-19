@@ -36,22 +36,33 @@
             <!--Card content-->
             <div class="card-body">
 
-				<h1 class="animated fadeIn text-muted">HANDLER ADMINISTRATION</h1>
+				<h1 class="animated fadeIn text-muted">HANDLER ADMIN</h1>
 				<hr>
 
         {% if userstatus == "0" %}
         <a href="searchhandler" class="btn btn-indigo">VERIFY HANDLER STATUS</a>
         <br><br>
         {% else %}
-        <p class="animated fadeIn text-muted">The below quick-links are available to verify status of Service Dogs & Handlers. Please scan ID tag and enter the resulting code on the following page.
+        <p class="animated fadeIn text-muted">Select from the following options to manage Handlers
         </p>
-        <table width=300 align=center>
-           <tr>
-             <td align=center><a href="searchhandler" class="btn btn-indigo">VERIFY HANDLER STATUS</a></td>
-             <td align=center><a href="registerhandler" class="btn btn-indigo">CREATE NEW REGISTRATION</a></td>
-           </tr>
-       </table>
-        <br><br>
+        <table width=280 align=center>
+            <tr>
+               <td align=left><a href="searchhandler" class="btn btn-indigo btn-block">HANDLER SEARCH </a><br><br></td>
+            </tr>
+            <tr>
+               <td align=left><a href="addhandler" class="btn btn-indigo btn-block">CREATE NEW REGISTRATION</a><br><br></td>
+            </tr>
+            <tr>
+              <td align=left><a href="edithandler" class="btn btn-indigo btn-block">MODIFY REGISTRATION DETAILS</a><br><br></td>
+            </tr>
+            <tr>
+               <td align=left><a href="handlerdocuments" class="btn btn-grey btn-block">VIEW DOGGUMENTATION</a><br><br></td>
+            </tr>
+            <tr>
+              <td align=left><a href="delhandler" class="btn btn-red btn-block">REMOVE HANDLER REGISTRATION</a><br><br></td>
+            </tr>
+         </table>
+  
         {% endif %}
         <!-- Main heading -->
      </div>
