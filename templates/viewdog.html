@@ -8,27 +8,6 @@
    <!--Grid row-->
    <div class="row wow fadeIn">
 
-     <!--Grid column-->
-     <div class="col-md-6 mb-4 white-text text-center text-md-left">
-        <!--Card-->
-        <div class="card">
-           <!--Card content-->
-           <div class="card-body">
-              <!-- Main heading -->
-              <h1 class="animated fadeIn text-muted">WELCOME</h1>
-              <p class="animated fadeIn text-muted">This is the registry of Service Dogs and Handlers. <br><br>Please make your selection using the top menu.
-                 Status of service dogs and their certified handlers can be verified without the need to log in.
-                 Other services require an active and valid login.
-              </p>
-              <center><img src="{{ url_for('static', filename='servicedoglogo.jpg') }}" width="270" /></center>
-              <!-- Main heading -->
-           </div>
-        </div>
-     </div>
-     <!--Grid column-->
-
-
-
       <!--Grid column-->
       <div class="col-md-6 mb-4 white-text text-md-left">
          <!--Card-->
@@ -37,25 +16,74 @@
             <div class="card-body">
 				<h1 class="animated fadeIn text-muted">DOG INFO</h1>
 				<hr>
-              <table>
-              {% for entry in doginfo %}
-
-                  <tr><td class="animated fadeIn text-muted" width=220><b>{{ entry }}<b></td><td class="animated fadeIn text-muted" >{{ doginfo[entry] }}</td></tr>
-              {%endfor%}
-              <tr><td><img src=" {{ photo }} " width=220></td><td><img src=" {{ qrcode }} " width=220></td>
+            <table>
+               <tr>
+                  <td class="animated fadeIn text-muted" width=50%>Dog ID:</td>
+                  <td class="animated fadeIn text-muted" width=50%>{{ dog_details["dogid"] }}</td>
+               </tr>
+               <tr>
+                  <td class="animated fadeIn text-muted" width=50%>Dog name:</td>
+                  <td class="animated fadeIn text-muted" width=50%>{{ dog_details["name"] }}</td>
+               </tr>
+               <tr>
+                  <td class="animated fadeIn text-muted" width=50%>Pedigree:</td>
+                  <td class="animated fadeIn text-muted" width=50%>{{ dog_details["pedigree"] }}</td>
+               </tr>
+               <tr>
+                  <td class="animated fadeIn text-muted" width=50%>Description:</td>
+                  <td class="animated fadeIn text-muted" width=50%>{{ dog_details["description"] }}</td>
+               </tr>
+               <tr>
+                  <td class="animated fadeIn text-muted" width=50%>Vaccination Status:</td>
+                  <td class="animated fadeIn text-muted" width=50%>{{ dog_details["vacc_status"] }}</td>
+               </tr>
+               <tr>
+                  <td class="animated fadeIn text-muted" width=50%>Registration Status:</td>
+                  <td class="animated fadeIn text-muted" width=50%>{{ dog_details["reg_status"] }}</td>
+               </tr>
+               <tr>
+                  <td class="animated fadeIn text-muted" width=50%>Handler ID:</td>
+                  <td class="animated fadeIn text-muted" width=50%>{{ dog_details["handler_id"] }}</td>
+               </tr> 
             </table>
-
+            <br>
             <a href="/" class="btn btn-indigo">Back to main menu</a>               
 
-          <!-- Main heading -->
-       </div>
-    </div>
-  </div>
-  <!--Grid column-->
-  </div>
-  <!--Grid row-->
-  </div>
-  <!-- Content -->
+             <!-- Main heading -->
+            </div>
+         </div>
+      </div>
+      <!--Grid column-->
+
+      <!--Grid column-->
+      <div class="col-md-6 mb-4 white-text text-center text-md-left">
+         <!--Card-->
+         <div class="card">
+            <!--Card content-->
+            <div class="card-body">
+               <!-- Main heading -->
+               <h1 class="animated fadeIn text-muted">PHOTO and QRcode</h1>
+               <hr>
+               <table>
+                     <tr>
+                        <td class="animated fadeIn text-muted" width=50%></td>
+                        <td class="animated fadeIn text-muted" ></td>
+                     </tr>
+
+                     <tr><td><img src=" {{ photo }} " style="max-width:100%"/></td><td><img src=" {{ qrcode }} " style="max-width:100%"></td>
+                </table>
+
+               <center><img src="{{ url_for('static', filename='servicedoglogo.jpg') }}" width="270" /></center>
+               <!-- Main heading -->
+            </div>
+         </div>
+      </div>
+      <!--Grid column-->
+ 
+   </div>
+   <!--Grid row-->
+</div>
+<!-- Content -->
 
 
   {% include 'tail.html' %}
