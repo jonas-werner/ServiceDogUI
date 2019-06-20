@@ -9,7 +9,7 @@
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
   <!-- Bootstrap core CSS -->
-  <link href={{ url_for('static', filename='css/bootstrap.min.css') }} rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <!-- Material Design Bootstrap -->
   <link href={{ url_for('static', filename='css/mdb.min.css') }} rel="stylesheet">
   <!-- Your custom styles (optional) -->
@@ -78,13 +78,13 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/searchdog" target="_top">Verify dog ID</a>
+            <a class="nav-link" href="/dogbyid" target="_top">View dog</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/searchhandler" target="_top">View handlers</a>
+            <a class="nav-link" href="/handlerbyid" target="_top">View handler</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/statistics" target="_top">View statistics</a>
+            <a class="nav-link" target="_top">View statistics</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/logout" target="_top">Log out</a>

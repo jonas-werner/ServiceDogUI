@@ -35,27 +35,27 @@
          <div class="card">
             <!--Card content-->
             <div class="card-body">
-
-				<h1 class="animated fadeIn text-muted">LOGIN STATUS</h1>
+				<h1 class="animated fadeIn text-muted">HANDLER SEARCH</h1>
 				<hr>
-  				  <br>
-            <h4 class="animated fadeIn text-muted">Login successful.</h4>
-            <h4 class="animated fadeIn text-muted">Role: administrator</h4>
-            <p class="animated fadeIn text-muted"><b>Cookie ID: </b>{{ uuid }}</p>
-            <br>
-            <br>
-            <a href="/admin" class="btn btn-indigo">Admin Console</a>
+        <br><br>
+        <form method="get" action="{{ url_for('viewhandler') }}">
 
+            <table><tr><td><center><h3 class="animated fadeIn text-muted">Enter handler ID number:</h3></table>
+              <input type="text" name="h_id" value=""><br><br>
+
+              <input class="btn btn-indigo" type="submit" value="SUBMIT"/>
+            </form>
+  				  <br><br>
 					<hr>
+          <!-- Main heading -->
+       </div>
+    </div>
+  </div>
+  <!--Grid column-->
+  </div>
+  <!--Grid row-->
+  </div>
+  <!-- Content -->
 
-        </div>
-     </div>
-   </div>
-   <!--Grid column-->
-   </div>
-   <!--Grid row-->
-   </div>
-   <!-- Content -->
 
-
-   {% include 'tail.html' %}
+  {% include 'tail.html' %}
