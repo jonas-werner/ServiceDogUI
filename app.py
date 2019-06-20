@@ -63,8 +63,8 @@ handlersname = ''
 ## Identify where we're running
 # if 'VCAP_SERVICES' in os.environ:
 if 1 == 1:
-    m3api_server= "http://vk-m3engine.cfapps.io"
-    handlerapi_server = "http://handlers.cfapps.io"
+    #m3api_server= "http://vk-m3engine.cfapps.io"
+    #handlerapi_server = "http://handlers.cfapps.io"
     #handler_api = "http://handlerservice.cfapps.io"
     #dog_api = "http://dogservice.cfapps.io"
     handler_api = os.environ['HANDLER_API']
@@ -75,8 +75,8 @@ else:
     m3api_server = "http://127.0.0.1:5020"
     handlerapi_server = "http://127.0.0.1:5000"
 
-print("workflow engine: %s" % m3api_server)
-print("handlerapi_server: %s" % handlerapi_server)
+# print("workflow engine: %s" % m3api_server)
+# print("handlerapi_server: %s" % handlerapi_server)
 
 my_uuid = str(uuid.uuid1())
 username = ""
@@ -206,11 +206,11 @@ def searchdogresults():
     # Convert True/False strings to boolean as required by API
     if criteria in ["vacc_status", "reg_status"] and match in ["true", "false"]:
         match = str2bool(match)
-    # if criteria == "handler_id" and match == "none":
-    #     match = None
-    #     print type(match)
+    if criteria == "handler_id" and match == "none":
+        match = None
+        print type(match)
     payload = {criteria : match}
-    # print payload
+    print payload
     url = dog_api + "/api/v1.0/search"
     response = requests.put(url, json=payload)
     dict_resp = json.loads(response.content)
@@ -220,11 +220,11 @@ def searchdogresults():
     resp = make_response(render_template('searchdogresults.html', results=dict_resp["dogs"]))
     return resp
 
-# ### Search for a dog by providing its unique ID
-# @app.route('/searchdog') # search page which submits to viewdog
-# def searchdog():
-#     resp = make_response(render_template('searchdog.html', viewdog="viewdog"))
-#     return resp
+### Search for a dog by providing its unique ID
+@app.route('/dogbyid') # search page which submits to viewdog
+def dogbyid():
+    resp = make_response(render_template('dogbyid.html'))
+    return resp
 
 ### View full dog details by providing its unique ID
 @app.route('/viewdog')
@@ -311,10 +311,17 @@ def editdog():
     resp = make_response(render_template('editdog.html'))
     return resp
 
-@app.route('/editdogshowcurrent.html', methods=['POST'])
+@app.route('/editdogshowcurrent.html', methods=['GET','POST'])
 def editdogshowcurrent():
 
-    dogid = request.form['dogid']
+    ### This is a Work-in-progress
+    # Trying to create another entrypoint to edit dog directly from viewdog pages
+    # if request.method == 'GET':
+    #     dogid = request.args.get['dogid']
+
+    if request.method == 'POST':
+        dogid = request.form['dogid']
+    
     ## Now we call the dog service to read the details of that dog
     url = dog_api + "/api/v1.0/dog/" + dogid
     api_resp = requests.get(url)    
@@ -365,6 +372,11 @@ def editdogapplychanges():
 def handlers():
     # global userstatus
     resp = make_response(render_template('handlers.html', userstatus=userstatus))
+    return resp
+
+@app.route('/handlerbyid') # search page which submits to viewhandler
+def handlerbyid():
+    resp = make_response(render_template('handlerbyid.html'))
     return resp
 
 @app.route('/searchhandler') # search page which submits to viewhandler
@@ -515,7 +527,7 @@ def verify(dogid):
     handler_name = handler_dict["handler"]["first_name"] + " " + handler_dict["handler"]["last_name"]
 
     resp = make_response(render_template('verify.html', name=dog_dict["dog"]["name"],\
-                    pedigree=dog_dict["dog"]["pedigree"],\
+                    pedigree=dog_dict["dog"]["pedigree"], registration_id=dog_dict["dog"]["registration_id"],\
                     handler_name=handler_name, dog_photo=dog_photo))
     return resp
 
@@ -545,7 +557,8 @@ def apiverify(dogid):
         "name" : dog_dict["dog"]["name"],
         "pedigree" : dog_dict["dog"]["pedigree"],
         "handler_name" : handler_name,
-        "dog_photo" : dog_photo
+        "dog_photo" : dog_photo,
+        "registration_id" : dog_dict["dog"]["registration_id"]
     }
     return jsonify( { 'dog': payload } )
 
