@@ -14,15 +14,17 @@
          <div class="card">
             <!--Card content-->
             <div class="card-body">
-				<h1 class="animated fadeIn text-muted">HANDLER SEARCH</h1>
+				<h1 class="animated fadeIn text-muted">DOG SEARCH</h1>
 				<hr>
         <br><br>
-        <form method="post" action="{{ url_for('searchhandlerresults') }}">
+        <form method="post" action="{{ url_for('searchresults') }}">
 			<h3 class="animated fadeIn text-muted">Select search criteria:</h3>
 			  <select name="criteria">
-				<option value="email">Email</option>
-				<option value="first_name">First Name</option>
-				<option value="last_name">Last Name</option>
+				<option value="reg_status">Registration Status</option>
+				<option value="vacc_status">Vaccination Status</option>
+				<option value="name">Name</option>
+				<option value="handler_id">Handler ID</option>
+				<option value="registration_id">Registration ID</option>
 			  </select>
 			<h3 class="animated fadeIn text-muted">Select match criteria:</h3>
 			<input type="text" name="match" value=""><br><br>

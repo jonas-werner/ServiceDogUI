@@ -1,0 +1,50 @@
+
+{% include 'head.html' %}
+
+
+
+<!-- Content -->
+<div class="container">
+   <!--Grid row-->
+   <div class="row wow fadeIn">
+
+      <!--Grid column-->
+      <div class="col-md-10 mb-4 white-text text-md-left">
+         <!--Card-->
+         <div class="card">
+            <!--Card content-->
+            <div class="card-body">
+				<h1 class="animated fadeIn text-muted">HANDLER SEARCH RESULTS</h1>
+            <table class="table table-striped">
+               <tr>
+                  <th class="animated fadeIn text-muted">Handler ID</td>
+                  <th class="animated fadeIn text-muted">Email</td>
+                  <th class="animated fadeIn text-muted">First Name</td>
+                  <th class="animated fadeIn text-muted">Last Name</td>
+               </tr>
+			{% for handler in results %}
+               <tr>
+                  <td class="animated fadeIn text-muted"><a href="/viewhandler?dogid={{ handler["id"] }}">{{ handler["id"] }}</a></td>
+                  <td class="animated fadeIn text-muted">{{ handler["email"] }}</td>
+                  <td class="animated fadeIn text-muted">{{ handler["first_name"] }}</td>
+                  <td class="animated fadeIn text-muted">{{ handler["last_name"] }}</td>
+               </tr>
+			{% endfor %}
+            </table>
+            <br>
+            <a href="/" class="btn btn-indigo">Back to main menu</a>               
+
+             <!-- Main heading -->
+            </div>
+         </div>
+      </div>
+      <!--Grid column-->
+
+ 
+   </div>
+   <!--Grid row-->
+</div>
+<!-- Content -->
+
+
+  {% include 'tail.html' %}

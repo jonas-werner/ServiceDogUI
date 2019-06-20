@@ -1,0 +1,57 @@
+
+{% include 'head.html' %}
+
+
+
+<!-- Content -->
+<div class="container">
+   <!--Grid row-->
+   <div class="row wow fadeIn">
+
+      <!--Grid column-->
+      <div class="col-md-10 mb-4 white-text text-md-left">
+         <!--Card-->
+         <div class="card">
+            <!--Card content-->
+            <div class="card-body">
+				<h1 class="animated fadeIn text-muted">DOG SEARCH RESULTS</h1>
+				<hr>
+            <table class="table table-striped">
+               <tr>
+                  <th class="animated fadeIn text-muted">Dog ID</td>
+                  <th class="animated fadeIn text-muted">Reg ID</td>
+                  <th class="animated fadeIn text-muted">Name</td>
+                  <th class="animated fadeIn text-muted">Pedigree</td>
+                  <th class="animated fadeIn text-muted">Reg Status</td>
+                  <th class="animated fadeIn text-muted">Vacc Status</td>
+                  <th class="animated fadeIn text-muted">Handler ID</td>
+               </tr>
+			{% for dog in results %}
+               <tr>
+                  <td class="animated fadeIn text-muted"><a href="/viewdog?dogid={{ dog["id"] }}">{{ dog["id"] }}</a></td>
+                  <td class="animated fadeIn text-muted">{{ dog["registration_id"] }}</td>
+                  <td class="animated fadeIn text-muted">{{ dog["name"] }}</td>
+                  <td class="animated fadeIn text-muted">{{ dog["pedigree"] }}</td>
+                  <td class="animated fadeIn text-muted">{{ dog["reg_status"] }}</td>
+                  <td class="animated fadeIn text-muted">{{ dog["vacc_status"] }}</td>
+                  <td class="animated fadeIn text-muted"><a href="/viewhandler?h_id={{ dog["handler_id"] }}">{{ dog["handler_id"] }}</a></td>
+               </tr>
+			{% endfor %}
+            </table>
+            <br>
+            <a href="/" class="btn btn-indigo">Back to main menu</a>               
+
+             <!-- Main heading -->
+            </div>
+         </div>
+      </div>
+      <!--Grid column-->
+
+ 
+   </div>
+   <!--Grid row-->
+</div>
+<!-- Content -->
+
+
+  {% include 'tail.html' %}

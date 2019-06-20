@@ -8,27 +8,6 @@
    <!--Grid row-->
    <div class="row wow fadeIn">
 
-     <!--Grid column-->
-     <div class="col-md-6 mb-4 white-text text-center text-md-left">
-        <!--Card-->
-        <div class="card">
-           <!--Card content-->
-           <div class="card-body">
-              <!-- Main heading -->
-              <h1 class="animated fadeIn text-muted">WELCOME</h1>
-              <p class="animated fadeIn text-muted">This is the registry of Service Dogs and Handlers. <br><br>Please make your selection using the top menu.
-                 Status of service dogs and their certified handlers can be verified without the need to log in.
-                 Other services require an active and valid login.
-              </p>
-              <center>><img src="{{ url_for('static', filename='servicedoglogo.jpg') }}" width="270" /></center>
-              <!-- Main heading -->
-           </div>
-        </div>
-     </div>
-     <!--Grid column-->
-
-
-
       <!--Grid column-->
       <div class="col-md-6 mb-4 white-text text-center text-md-left">
          <!--Card-->
@@ -38,10 +17,18 @@
 				<h1 class="animated fadeIn text-muted">DOG SEARCH</h1>
 				<hr>
         <br><br>
-        <form method="post" action="{{ url_for('viewdog') }}">
-
-            <table><tr><td><center><h3 class="animated fadeIn text-muted">Enter dog ID number:</h3></table>
-              <input type="text" name="dogid" value=""><br><br>
+        <form method="post" action="{{ url_for('searchdogresults') }}">
+			<h3 class="animated fadeIn text-muted">Select search criteria:</h3>
+			  <select name="criteria">
+				<option value="_id">Dog ID</option>
+				<option value="reg_status">Registration Status</option>
+				<option value="vacc_status">Vaccination Status</option>
+				<option value="name">Name</option>
+				<option value="handler_id">Handler ID</option>
+				<option value="registration_id">Registration ID</option>
+			  </select>
+			<h3 class="animated fadeIn text-muted">Select match criteria:</h3>
+			<input type="text" name="match" value=""><br><br>
 
               <input class="btn btn-indigo" type="submit" value="SUBMIT"/>
             </form>

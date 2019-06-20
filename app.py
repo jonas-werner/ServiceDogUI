@@ -172,6 +172,15 @@ def logout():
 
     return resp
 
+############################
+# Admin Menu - All Options #
+############################
+@app.route('/admin')
+def admin():
+
+    resp = make_response(render_template('admin.html'))
+    return resp
+
 ######################
 # Dog-related routes #
 ######################
@@ -183,19 +192,48 @@ def dogs():
     resp = make_response(render_template('dogs.html', userstatus=userstatus))
     return resp
 
-### View dog GET and POST functions
 @app.route('/searchdog') # search page which submits to viewdog
 def searchdog():
     resp = make_response(render_template('searchdog.html', viewdog="viewdog"))
     return resp
 
-@app.route('/viewdog', methods=['POST']) # displays result of dog ID search in searchdog
+@app.route('/searchdogresults', methods=['POST']) # displays result of dog ID search in searchdog
+def searchdogresults():
+
+    criteria = request.form['criteria']
+    match = request.form['match'].lower()
+    print "Searching for {} = {}".format(criteria.lower(), match.lower())
+    # Convert True/False strings to boolean as required by API
+    if criteria in ["vacc_status", "reg_status"] and match in ["true", "false"]:
+        match = str2bool(match)
+    # if criteria == "handler_id" and match == "none":
+    #     match = None
+    #     print type(match)
+    payload = {criteria : match}
+    # print payload
+    url = dog_api + "/api/v1.0/search"
+    response = requests.put(url, json=payload)
+    dict_resp = json.loads(response.content)
+    # print dict_resp
+    # print dict_resp["dogs"]
+
+    resp = make_response(render_template('searchdogresults.html', results=dict_resp["dogs"]))
+    return resp
+
+# ### Search for a dog by providing its unique ID
+# @app.route('/searchdog') # search page which submits to viewdog
+# def searchdog():
+#     resp = make_response(render_template('searchdog.html', viewdog="viewdog"))
+#     return resp
+
+### View full dog details by providing its unique ID
+@app.route('/viewdog')
 def viewdog():
 
     global username
-
     userid = "admin"
-    dogid = request.form['dogid']
+
+    dogid = request.args.get('dogid')
     url = dog_api + "/api/v1.0/dog/" + dogid
     response = requests.get(url)
     dict_resp = json.loads(response.content)
@@ -205,6 +243,23 @@ def viewdog():
 
     resp = make_response(render_template('viewdog.html', dogid=dogid, dog_details=dict_resp["dog"], photo=photo, qrcode=qrcode))
     return resp
+
+# @app.route('/viewdog', methods=['POST']) # displays result of dog ID search in searchdog
+# def viewdog():
+
+#     global username
+
+#     userid = "admin"
+#     dogid = request.form['dogid']
+#     url = dog_api + "/api/v1.0/dog/" + dogid
+#     response = requests.get(url)
+#     dict_resp = json.loads(response.content)
+
+#     photo = "http://" + namespace + ".public.ecstestdrive.com/" + bname + "/" + dogid + ".jpg"
+#     qrcode = "http://" + namespace + ".public.ecstestdrive.com/" + bname + "/" + dogid + "-qr.jpg"
+
+#     resp = make_response(render_template('viewdog.html', dogid=dogid, dog_details=dict_resp["dog"], photo=photo, qrcode=qrcode))
+#     return resp
 
 def str2bool(v):
     return v.lower() in ("true")
@@ -329,13 +384,33 @@ def handlers():
 
 @app.route('/searchhandler') # search page which submits to viewhandler
 def searchhandler():
-    resp = make_response(render_template('searchhandler.html', viewhandler="viewhandler"))
+    # resp = make_response(render_template('searchhandler.html', viewhandler="viewhandler"))
+    resp = make_response(render_template('searchhandler.html'))
+    return resp
+
+@app.route('/searchhandlerresults', methods=['POST'])
+def searchhandlerresults():
+
+    criteria = request.form['criteria']
+    match = request.form['match'].lower()
+    print "Searching for {} = {}".format(criteria.lower(), match.lower())
+    # Convert True/False strings to boolean as required by API
+    payload = {criteria : match}
+    # print payload
+    url = handler_api + "/api/v1.0/search"
+    response = requests.put(url, json=payload)
+    dict_resp = json.loads(response.content)
+    # print dict_resp
+    # print dict_resp["dogs"]
+
+    resp = make_response(render_template('searchhandlerresults.html', results=dict_resp["handlers"]))
     return resp
 
 # displays result of Handler ID search in searchhandler
-@app.route('/viewhandler', methods=['POST'])
+@app.route('/viewhandler')
 def viewhandler():
-    h_id = request.form['handlerid']
+
+    h_id = request.args.get('h_id')
     url = handler_api + "/api/v1.0/handler/" + h_id
 
     response = requests.get(url)
@@ -344,6 +419,19 @@ def viewhandler():
 
     resp = make_response(render_template('viewhandler.html', handlerinfo=dict_resp["handler"], h_id=h_id))
     return resp
+
+# # displays result of Handler ID search in searchhandler
+# @app.route('/viewhandler', methods=['POST'])
+# def viewhandler():
+#     h_id = request.form['handlerid']
+#     url = handler_api + "/api/v1.0/handler/" + h_id
+
+#     response = requests.get(url)
+#     dict_resp = json.loads(response.content)
+#     print dict_resp["handler"]
+
+#     resp = make_response(render_template('viewhandler.html', handlerinfo=dict_resp["handler"], h_id=h_id))
+#     return resp
 
 ### Add dog functions: GET and POST
 @app.route('/addhandler')
