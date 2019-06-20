@@ -5,24 +5,7 @@
 <div class="container">
    <!--Grid row-->
    <div class="row wow fadeIn">
-      <!--Grid column-->
-      <div class="col-md-6 mb-4 white-text text-center text-md-left">
-         <!--Card-->
-         <div class="card">
-            <!--Card content-->
-            <div class="card-body">
-               <!-- Main heading -->
-               <h1 class="animated fadeIn text-muted">WELCOME</h1>
-               <p class="animated fadeIn text-muted">This is the registry of Service Dogs and Handlers. <br><br>Please make your selection using the top menu.
-                  Status of service dogs and their certified handlers can be verified without the need to log in.
-                  Other services require an active and valid login.
-               </p>
-               <center>><img src="{{ url_for('static', filename='servicedoglogo.jpg') }}" width="270" /></center>
-               <!-- Main heading -->
-            </div>
-         </div>
-      </div>
-      <!--Grid column-->
+
       <!--Grid column-->
       <div class="col-md-6 mb-4 white-text text-center text-md-left">
          <!--Card-->
@@ -59,16 +42,6 @@
                       <td><p class="animated fadeIn text-muted">Handler ID:</p></td>
                       <td><p class="animated fadeIn text-muted">{{ dog_details["handler_id"] }}</p></td>
                     </tr>
-                    <tr>
-                      <td colspan="2"><p class="animated fadeIn text-muted">Dog's photo:</p></td>
-                      <td colspan="2"><img src="{{ photo }}" width=200></td>
-                    </tr>
-                    <tr>
-                      <td colspan="2"><p class="animated fadeIn text-muted">
-                            This QRcode is used to verify the legitimate dog/handler pairing.<br>
-                            Use it to create the physical dog tag</p><td>
-                      <td colspan="2"><img src="{{ qrcode }}" width=200></td>
-                    </tr>
                     </table>
 
                   <br><br>
@@ -79,6 +52,31 @@
          </div>
       </div>
       <!--Grid column-->
+
+      <!--Grid column-->
+      <div class="col-md-6 mb-4 white-text text-center text-md-left">
+         <!--Card-->
+         <div class="card">
+            <!--Card content-->
+            <div class="card-body">
+               <!-- Main heading -->
+               <h1 class="animated fadeIn text-muted">Photo and Qrcode</h1>
+               <!-- Main heading -->
+               <table>
+                     <tr>
+                        <td class="animated fadeIn text-muted" width=50%></td>
+                        <td class="animated fadeIn text-muted" ></td>
+                     </tr>
+
+                     <tr><td><img src=" {{ photo }} " style="max-width:100%"/></td><td><img src=" {{ qrcode }} " style="max-width:100%"></td>
+                </table>
+               <center><img src="{{ url_for('static', filename='servicedoglogo.jpg') }}" width="270" /></center>
+            </div>
+         </div>
+      </div>
+      <!--Grid column-->
+   
+
    </div>
    <!--Grid row-->
 </div>

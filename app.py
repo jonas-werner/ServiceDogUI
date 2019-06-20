@@ -362,6 +362,8 @@ def editdogapplychanges():
 
     ## Let's upload the photo
     myfile = request.files['file']
+    print "The file is: "
+    print myfile
     # First get the file name and see if it's secure
     if myfile and allowed_file(myfile.filename):
         upload_file(myfile, dogid + ".jpg")
@@ -546,6 +548,37 @@ def verify(dogid):
                     pedigree=dog_dict["dog"]["pedigree"],\
                     handler_name=handler_name, dog_photo=dog_photo))
     return resp
+
+## This is the API version, to allow PetCo to print badges
+## If we add an API gateway it should be expose there instead
+@app.route('/api/v1/verify/<dogid>', methods=["GET"])
+def apiverify(dogid):
+    # Get the dogid from the URL and call the dogs service
+    url = dog_api + "/api/v1.0/dog/" + dogid
+    dog_response = requests.get(url)
+
+    # Extract dog details from response and get the id of its handler
+    dog_dict = json.loads(dog_response.content)
+    print dog_dict
+
+    # We can pull the details for the handler now
+    url = handler_api + "/api/v1.0/handler/" + dog_dict["dog"]["handler_id"]
+    handler_response = requests.get(url)
+
+    # Extract handler details
+    handler_dict = json.loads(handler_response.content)
+
+    dog_photo = "http://" + namespace + ".public.ecstestdrive.com/" + bname + "/" + dogid + ".jpg"
+    handler_name = handler_dict["handler"]["first_name"] + " " + handler_dict["handler"]["last_name"]
+
+    payload = {
+        "name" : dog_dict["dog"]["name"],
+        "pedigree" : dog_dict["dog"]["pedigree"],
+        "handler_name" : handler_name,
+        "dog_photo" : dog_photo
+    }
+    return jsonify( { 'dog': payload } )
+
 
 ############################
 # ECS and QRcode functions #
