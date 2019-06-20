@@ -244,23 +244,6 @@ def viewdog():
     resp = make_response(render_template('viewdog.html', dogid=dogid, dog_details=dict_resp["dog"], photo=photo, qrcode=qrcode))
     return resp
 
-# @app.route('/viewdog', methods=['POST']) # displays result of dog ID search in searchdog
-# def viewdog():
-
-#     global username
-
-#     userid = "admin"
-#     dogid = request.form['dogid']
-#     url = dog_api + "/api/v1.0/dog/" + dogid
-#     response = requests.get(url)
-#     dict_resp = json.loads(response.content)
-
-#     photo = "http://" + namespace + ".public.ecstestdrive.com/" + bname + "/" + dogid + ".jpg"
-#     qrcode = "http://" + namespace + ".public.ecstestdrive.com/" + bname + "/" + dogid + "-qr.jpg"
-
-#     resp = make_response(render_template('viewdog.html', dogid=dogid, dog_details=dict_resp["dog"], photo=photo, qrcode=qrcode))
-#     return resp
-
 def str2bool(v):
     return v.lower() in ("true")
 
@@ -421,19 +404,6 @@ def viewhandler():
 
     resp = make_response(render_template('viewhandler.html', handlerinfo=dict_resp["handler"], h_id=h_id))
     return resp
-
-# # displays result of Handler ID search in searchhandler
-# @app.route('/viewhandler', methods=['POST'])
-# def viewhandler():
-#     h_id = request.form['handlerid']
-#     url = handler_api + "/api/v1.0/handler/" + h_id
-
-#     response = requests.get(url)
-#     dict_resp = json.loads(response.content)
-#     print dict_resp["handler"]
-
-#     resp = make_response(render_template('viewhandler.html', handlerinfo=dict_resp["handler"], h_id=h_id))
-#     return resp
 
 ### Add dog functions: GET and POST
 @app.route('/addhandler')
