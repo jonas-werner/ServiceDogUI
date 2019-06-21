@@ -38,7 +38,7 @@ import qrcode
     # db = DB_ENDPOINT[DB_NAME]
 
 ## Declare environment variables
-ecs_access_key_id = os.environ['ECS_access_key'] 
+ecs_access_key_id = os.environ['ECS_access_key']
 ecs_secret_key = os.environ['ECS_secret']
 ## We can now extract "namespace" from the access key
 namespace = ecs_access_key_id.split('@')[0]
@@ -280,7 +280,7 @@ def adddogprocess():
     # Create the QRcode and upload to ECS
     upload_file(qrgen(dogid), dogid + "-qr.jpg")
     qrcode = "http://" + namespace + ".public.ecstestdrive.com/" + bname + "/" + dogid + "-qr.jpg"
-    
+
     resp = make_response(render_template('dogregistered.html', dogid=dogid, dog_details=dog_details, photo=photo, qrcode=qrcode))
     return resp
 
@@ -308,7 +308,9 @@ def deldogprocess():
 #   3 - Let me save it for you (POST)
 @app.route('/editdog')
 def editdog():
-    resp = make_response(render_template('editdog.html'))
+    dogid = ""
+    dogid = request.args.get('dogid')
+    resp = make_response(render_template('editdog.html', dogid=dogid))
     return resp
 
 @app.route('/editdogshowcurrent.html', methods=['GET','POST'])
@@ -321,10 +323,10 @@ def editdogshowcurrent():
 
     if request.method == 'POST':
         dogid = request.form['dogid']
-    
+
     ## Now we call the dog service to read the details of that dog
     url = dog_api + "/api/v1.0/dog/" + dogid
-    api_resp = requests.get(url)    
+    api_resp = requests.get(url)
     dict_resp = json.loads(api_resp.content)
     # The response is formatted as { "dog" : {"name":"Rufus"}, {},...}
     dog_to_edit = dict_resp["dog"]
@@ -434,7 +436,7 @@ def addhandlerprocess():
     api_resp = requests.post(url, json=handler_details)
     dict_resp = json.loads(api_resp.content)
     h_id = dict_resp["handler"]["id"]
-    
+
     resp = make_response(render_template('handlerregistered.html', h_id=h_id, handler_details=handler_details))
     return resp
 

@@ -6,7 +6,7 @@
    <!--Grid row-->
    <div class="row wow fadeIn">
       <!--Grid column-->
-      <div class="col-md-6 mb-4 white-text text-center text-md-left">
+      <div class="col-md-12 mb-4 white-text text-center text-md-left">
          <!--Card-->
          <div class="card">
             <!--Card content-->
@@ -15,7 +15,10 @@
               <h1 class="animated fadeIn text-muted">MODIFY DOG DETAILS</h1>
 
 
-          		<form method="post" action="{{ url_for('editdogapplychanges') }}" enctype="multipart/form-data">
+              <form method="post" action="{{ url_for('editdogapplychanges') }}" enctype="multipart/form-data">
+
+<div class="row">
+  <div class="col-md-6 mb-4 white-text text-center text-md-left">
 
           		<table>
                   <tr>
@@ -23,11 +26,11 @@
                     <td>
                       <!--Need to keep the dogid to use in the insert. I add it to the form with a 'name'-->
                       <!--To display it, we use type=text readonly. Otherwise use the hidden widget-->
-                      <!--input type="hidden" name="dddogid" value={{dogid}}-->
                       <input type="text" name="dogid" value={{dogid}}  readonly style="width: 150px; height: 30px"></td>
                   <tr>
                     <td><p class="animated fadeIn text-muted">Registration ID</p></td>
                     <td><input type="text" name="registration_id" value={{ dog_details["registration_id"] }} readonly style="width: 150px; height: 30px"></td>
+                    <!--input type="hidden" name="dddogid" value={{dogid}}-->
                   </tr>
                   <tr>
                     <td><p class="animated fadeIn text-muted">Dog Name</p></td>
@@ -47,17 +50,8 @@
                   </tr>
                 </table>
                <!-- Main heading -->
-            </div>
-         </div>
-      </div>
-      <!--Grid column-->
-      <!--Grid column-->
-      <div class="col-md-6 mb-4 white-text text-center text-md-left">
-         <!--Card-->
-         <div class="card">
-            <!--Card content-->
-            <div class="card-body">
-              <h1 class="animated fadeIn text-muted">MODIFY DOG DETAILS</h1>
+   </div>
+   <div class="col-md-6 mb-4 white-text text-center text-md-left">
 
 
          		<table>
@@ -88,10 +82,12 @@
                     <td><input type="file" name="file"></td>
                   </tr>
                 </table>
+    </div>
+  </div>
 
           			<br><br>
                 <input class="btn btn-indigo" type="submit" value="SUBMIT"/>
-             </form>
+              </form>
           </div>
        </div>
     </div>
