@@ -321,6 +321,7 @@ def editdogshowcurrent():
     # if request.method == 'GET':
     #     dogid = request.args.get['dogid']
 
+
     if request.method == 'POST':
         dogid = request.form['dogid']
 
@@ -344,6 +345,7 @@ def editdogapplychanges():
     dog_details["reg_status"] = str2bool(dog_details["reg_status"])
     dog_details["vacc_status"] = str2bool(dog_details["vacc_status"])
     # print dog_details
+    print("DOG DETAILS: %s" % dog_details)
 
     # Call the dog service to insert it and get a dogid back
     dogid = request.form['dogid']
