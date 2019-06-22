@@ -17,14 +17,14 @@
 				<h1 class="animated fadeIn text-muted">HANDLER SEARCH RESULTS</h1>
             <table class="table table-striped">
                <tr>
-                  <th class="animated fadeIn text-muted">Handler ID</td>
-                  <th class="animated fadeIn text-muted">Email</td>
-                  <th class="animated fadeIn text-muted">First Name</td>
-                  <th class="animated fadeIn text-muted">Last Name</td>
+                  <td class="animated fadeIn text-muted">Handler ID</td>
+                  <td class="animated fadeIn text-muted">Email</td>
+                  <td class="animated fadeIn text-muted">First Name</td>
+                  <td class="animated fadeIn text-muted">Last Name</td>
                </tr>
 			{% for handler in results %}
                <tr>
-                  <td class="animated fadeIn text-muted"><a href="/viewhandler?dogid={{ handler["id"] }}">{{ handler["id"] }}</a></td>
+                  <td class="animated fadeIn text-muted"><a href="/viewhandler?h_id={{ handler["id"] }}">{{ handler["id"] }}</a></td>
                   <td class="animated fadeIn text-muted">{{ handler["email"] }}</td>
                   <td class="animated fadeIn text-muted">{{ handler["first_name"] }}</td>
                   <td class="animated fadeIn text-muted">{{ handler["last_name"] }}</td>
@@ -32,7 +32,7 @@
 			{% endfor %}
             </table>
             <br>
-            <a href="/admin" class="btn btn-indigo">Back to admin menu</a>               
+            <a href="/admin" class="btn btn-indigo">Back to admin menu</a>
 
              <!-- Main heading -->
             </div>
