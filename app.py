@@ -445,7 +445,9 @@ def addhandlerprocess():
 ### Delete dog: GET and POST
 @app.route('/delhandler')
 def delhandler():
-    resp = make_response(render_template('delhandler.html'))
+    h_id = ""
+    h_id = request.args.get('h_id')
+    resp = make_response(render_template('delhandler.html', h_id=h_id))
     return resp
 
 @app.route('/delhandlerprocess.html', methods=['POST'])
@@ -457,8 +459,59 @@ def delhandlerprocess():
     url = handler_api + "/api/v1.0/handler/" + i
     api_resp = requests.delete(url)
 
-    resp = make_response(render_template('handlerdeleted.html', h_id=h_id))
+    resp = make_response(render_template('handlerdeleted.html', h_id=i))
     return resp
+
+
+### Start handler updates
+#################################################
+@app.route('/edithandler')
+def edithandler():
+    h_id = ""
+    h_id = request.args.get('h_id')
+    resp = make_response(render_template('edithandler.html', h_id=h_id))
+    return resp
+
+@app.route('/edithandlershowcurrent.html', methods=['GET','POST'])
+def edithandlershowcurrent():
+
+
+    if request.method == 'POST':
+        h_id = request.form['h_id']
+
+    ## Now we call the dog service to read the details of that dog
+    url = handler_api + "/api/v1.0/handler/" + h_id
+    api_resp = requests.get(url)
+    dict_resp = json.loads(api_resp.content)
+
+    handler_to_edit = dict_resp["handler"]
+    print handler_to_edit
+
+    resp = make_response(render_template('currenthandler.html', h_id=h_id, handler_details=handler_to_edit))
+    return resp
+
+@app.route('/edithandlerapplychanges.html', methods=['POST'])
+def edithandlerapplychanges():
+
+    handler_details = request.form.to_dict()
+    print("HANDLER DETAILS: %s" % handler_details)
+    h_id = request.form['h_id']
+
+    url = handler_api + "/api/v1.0/handler/" + h_id
+    api_resp = requests.put(url, json=handler_details)
+    print("API_RESP: %s" % api_resp)
+
+    dict_resp = json.loads(api_resp.content)
+
+    resp = make_response(render_template('handlermodified.html', handler_details=handler_details))
+
+    return resp
+
+### End handler updates
+#######################################
+
+
+
 
 ## Registration page that submits a form to hregistrationaction
 # @app.route('/registerhandler', methods=['GET','POST'])

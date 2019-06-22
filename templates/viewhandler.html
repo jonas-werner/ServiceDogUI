@@ -37,27 +37,42 @@
             <div class="card-body">
 				<h1 class="animated fadeIn text-muted">HANDLER ADMINISTRATION</h1>
 				<hr>
-            <table>
-                  <tr>
-                     <td class="animated fadeIn text-muted" width=50%>Handler ID:</td>
-                     <td class="animated fadeIn text-muted" width=50%>{{ h_id }}</td>
-                  </tr>
-                  <tr>
-                     <td class="animated fadeIn text-muted" width=50%>First Name:</td>
-                     <td class="animated fadeIn text-muted" width=50%>{{ handlerinfo["first_name"] }}</td>
-                  </tr>
-                  <tr>
-                     <td class="animated fadeIn text-muted" width=50%>Last Name:</td>
-                     <td class="animated fadeIn text-muted" width=50%>{{ handlerinfo["last_name"] }}</td>
-                  </tr>
-                  <tr>
-                     <td class="animated fadeIn text-muted" width=50%>Email:</td>
-                     <td class="animated fadeIn text-muted" width=50%>{{ handlerinfo["email"] }}</td>
-                  </tr>
-            </table>
-            <br><br>
-            <a href="/" class="btn btn-indigo">Back to main menu</a>           
-            <a href="mailto:{{ handlerinfo["email"] }}?Subject=Your%20dog%20vaccination" target="_top" class="btn btn-indigo">Email Handler</a>               
+          <table>
+            <tr>
+               <td class="animated fadeIn text-muted" width=50%>Handler ID:</td>
+               <td class="animated fadeIn text-muted" width=50%>{{ h_id }}</td>
+            </tr>
+            <tr>
+               <td class="animated fadeIn text-muted" width=50%>First Name:</td>
+               <td class="animated fadeIn text-muted" width=50%>{{ handlerinfo["first_name"] }}</td>
+            </tr>
+            <tr>
+               <td class="animated fadeIn text-muted" width=50%>Last Name:</td>
+               <td class="animated fadeIn text-muted" width=50%>{{ handlerinfo["last_name"] }}</td>
+            </tr>
+            <tr>
+               <td class="animated fadeIn text-muted" width=50%>Email:</td>
+               <td class="animated fadeIn text-muted" width=50%>{{ handlerinfo["email"] }}</td>
+            </tr>
+          </table>
+          <center>
+          <br><br>
+          <table width=300 cellpadding=5>
+            <tr>
+              <td colspan="2"><a href="/edithandler?h_id={{h_id}}" class="btn btn-indigo btn-block" style="height:40px; align-items:center;">Edit handler record</a></td>
+            </tr>
+            <tr>
+              <td colspan="2"><a href="/delhandler?h_id={{h_id}}" class="btn btn-red btn-block" style="height:40px; align-items:center;">Delete handler record</a></td>
+            </tr>
+            <tr>
+              <td colspan="2"><a href="mailto:{{ handlerinfo["email"] }}?Subject=Your%20dog%20vaccination" target="_top" class="btn btn-indigo btn-block" style="height:40px; align-items:center;">Email Handler</a></td>
+            </tr>
+            <tr>
+              <td colspan="2"><a href="/admin" class="btn btn-indigo btn-block" style="height:40px; align-items:center;">Back to admin menu</a></td>
+            </tr>
+          </table>
+          </center>
+          <br><br>
 				<hr>
 
           <!-- Main heading -->

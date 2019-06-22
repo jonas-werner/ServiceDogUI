@@ -1,6 +1,6 @@
 
 
-{% include 'head_grey.html' %}
+{% include 'head.html' %}
 <!-- Content -->
 <div class="container">
    <!--Grid row-->
@@ -29,30 +29,29 @@
          <div class="card">
             <!--Card content-->
             <div class="card-body">
-                <h1 class="animated fadeIn text-muted">Delete handler record</h1>
-                <p class="animated fadeIn text-muted"><font color=red><b>Please note:</b></font> This action is permanent.</p>
-                <br>
+              <h1 class="animated fadeIn text-muted">Edit handler record</h1>
+          		<form method="post" action="{{ url_for('edithandlershowcurrent') }}" enctype="multipart/form-data">
 
-            		<form method="post" action="{{ url_for('delhandlerprocess') }}" enctype="multipart/form-data">
-            			<table>
-                    <tr>
-                      <td><h4 class="animated fadeIn text-muted">Handler ID to be deleted: </h4></td>
-                      <td width=10></td>
-            			    <td><input type="text" name="h_id" value="{{h_id}}" style="width: 150px; height: 30px"></td>
-                    </tr>
-                  </table>
-                  <br><br>
+				<br><br>
+          		<table>
+                  <tr>
+                    <td><h4 class="animated fadeIn text-muted">Handler ID to edit: </h4></td>
+                    <td width=10></td>
+                    <td><input type="text" name="h_id" value="{{ h_id }}" style="width: 150px; height: 30px"></td>
+                  </tr>
+                </table>
 
-            		  <input class="btn btn-indigo" type="submit" value="SUBMIT"/> <a href="/admin" class="btn btn-red">Cancel</a>
 
-            		</form>
+                <br><br>
 
-            </div>
-         </div>
-      </div>
-      <!--Grid column-->
-   </div>
-   <!--Grid row-->
+          		  <input class="btn btn-indigo" type="submit" value="SUBMIT"/>
+          		</form>
+          </div>
+       </div>
+    </div>
+    <!--Grid column-->
+ </div>
+ <!--Grid row-->
 </div>
 <!-- Content -->
 {% include 'tail.html' %}

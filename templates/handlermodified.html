@@ -1,6 +1,6 @@
 
 
-{% include 'head_grey.html' %}
+{% include 'head.html' %}
 <!-- Content -->
 <div class="container">
    <!--Grid row-->
@@ -29,23 +29,26 @@
          <div class="card">
             <!--Card content-->
             <div class="card-body">
-                <h1 class="animated fadeIn text-muted">Delete handler record</h1>
-                <p class="animated fadeIn text-muted"><font color=red><b>Please note:</b></font> This action is permanent.</p>
-                <br>
-
-            		<form method="post" action="{{ url_for('delhandlerprocess') }}" enctype="multipart/form-data">
-            			<table>
+               <h1 class="animated fadeIn text-muted">Modification complete</h1>
+                  <table spacing=2>
                     <tr>
-                      <td><h4 class="animated fadeIn text-muted">Handler ID to be deleted: </h4></td>
-                      <td width=10></td>
-            			    <td><input type="text" name="h_id" value="{{h_id}}" style="width: 150px; height: 30px"></td>
+                      <td><p class="animated fadeIn text-muted">First name:</p></td>
+                      <td><p class="animated fadeIn text-muted">{{ handler_details["first_name"] }}</p></td>
+                    </tr>
+                    <tr>
+                        <td><p class="animated fadeIn text-muted">Last name:</p></td>
+                        <td><p class="animated fadeIn text-muted">{{ handler_details["last_name"] }}</p></td>
+                    </tr>
+                    <tr>
+                        <td><p class="animated fadeIn text-muted">Email:</p></td>
+                        <td><p class="animated fadeIn text-muted">{{ handler_details["email"] }}</p></td>
                     </tr>
                   </table>
+
                   <br><br>
 
-            		  <input class="btn btn-indigo" type="submit" value="SUBMIT"/> <a href="/admin" class="btn btn-red">Cancel</a>
+                  <a href="/admin" class="btn btn-indigo">Back to admin menu</a>
 
-            		</form>
 
             </div>
          </div>
