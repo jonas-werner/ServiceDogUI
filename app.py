@@ -44,12 +44,19 @@ ecs_secret_key = os.environ['ECS_secret']
 namespace = ecs_access_key_id.split('@')[0]
 
 session = boto.connect_s3(ecs_access_key_id, ecs_secret_key, host='object.ecstestdrive.com')
+
+# Dog Photo bucket
 bname = 'dogphotos'
 b = session.get_bucket(bname)
-print "Bucket is: " + str(b)
+print str(b)
+
+# Document Admin bucket
+docadmin_bname = 'docadmin'
+docadmin_s3 = session.get_bucket(docadmin_bname)
+print str(docadmin_s3)
 
 app = Flask(__name__)
-app.config['ALLOWED_EXTENSIONS'] = set(['jpg', 'jpeg', 'JPG', 'JPEG'])
+app.config['ALLOWED_EXTENSIONS'] = set(['jpg', 'jpeg', 'JPG', 'JPEG', 'pdf', 'PDF'])
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1] in app.config['ALLOWED_EXTENSIONS']
@@ -64,19 +71,20 @@ handlersname = ''
 # if 'VCAP_SERVICES' in os.environ:
 if 1 == 1:
     #m3api_server= "http://vk-m3engine.cfapps.io"
-    #handlerapi_server = "http://handlers.cfapps.io"
+    #handler_api = "http://handlers.cfapps.io"
     #handler_api = "http://handlerservice.cfapps.io"
     #dog_api = "http://dogservice.cfapps.io"
     handler_api = os.environ['HANDLER_API']
     dog_api = os.environ['DOG_API']
     ui_url=os.environ['UI_URL']
+    docadmin_api = os.environ['DOCADMIN_API']
 
 else:
-    m3api_server = "http://127.0.0.1:5020"
-    handlerapi_server = "http://127.0.0.1:5000"
-
-# print("workflow engine: %s" % m3api_server)
-# print("handlerapi_server: %s" % handlerapi_server)
+    handler_api = "http://127.0.0.1:5010"
+    dog_api = "http://127.0.0.1:5020"
+##    ui_url = "http://127.0.0.1:5030"
+    docadmin_api = "http://127.0.0.1:5040"
+    auth_api = "http://127.0.0.1:5050"    
 
 my_uuid = str(uuid.uuid1())
 username = ""
@@ -177,10 +185,68 @@ def logout():
 ############################
 @app.route('/admin')
 def admin():
-
-    resp = make_response(render_template('admin.html'))
+##    global userstatus
+    resp = make_response(render_template('admin.html', userstatus=userstatus))
     return resp
 
+### Add document functions: GET and POST
+@app.route('/addoc')
+def addoc():
+    # Render HTML page to request the new document's information
+    # Expect: handler_id, dog_id, doco_type and document file
+    resp = make_response(render_template('newdoc.html'))
+    return resp
+
+@app.route('/addocoprocess.html', methods=['POST'])
+def addocoprocess():
+
+    doc_details = request.form.to_dict()
+    print doc_details
+
+    # Call the docadmin service to insert new document record, expect 
+    url = docadmin_api + "/api/v1.0/doco"
+    api_resp = requests.post(url, json=doc_details)
+    print api_resp.content
+    dict_resp = json.loads(api_resp.content)
+
+    # The following line returns the instance's unique mongodb _id and stores in docid variable
+    # docid is used as part of document name in S3 bucket
+    docid = dict_resp["doco"]["id"]
+    docname = docid + ".pdf"
+
+    ## Now we can upload the photo with a name based on docid
+    myfile = request.files['file']
+    # First get the file name and see if it's secure
+    if myfile and allowed_file(myfile.filename):
+        upload_doc(myfile, docname)
+        set_doc_status(docid,uploaded)
+    # This is how the document will be reached
+    docuri = "http://" + namespace + ".public.ecstestdrive.com/" + docadmin_s3 + "/" + docname
+    
+    resp = make_response(render_template('docadminuploaded.html', doc_details=alldoc_details))
+    return resp
+
+def set_doc_status(docid,status):
+    # Set document status, it can be any of -
+    # uploaded: initial state when doc is first uploaded
+    # processed: once an operator eyeballs the doc and has visually verified
+    # retired: doc is retired due to expired or superceded
+    # We're not running any checks at this stage, just setting the status
+    url = docadmin_api + "/api/v1.0/doco/" + docid
+    print url
+    doc_status = status
+    api_resp = requests.put(url, json=doc_status)
+
+    return
+
+def set_doc_name(docid,docuri):
+    # Set document name to S3 bucket URI
+    url = docadmin_api + "/api/v1.0/doco/" + docid
+    name = docuri
+    api_resp = requests.put(url, json=name)
+
+    return
+    
 ######################
 # Dog-related routes #
 ######################
@@ -641,6 +707,18 @@ def qrgen(dogid):
     img = qrcode.make(URL)
     return img
 
+def upload_doc(myfile, fname):
+    # Save it locally to the "/uploads" directory. Don't forget to create the DIR !!!
+    myfile.save(os.path.join("uploads", fname))
+    # Now let's upload it to ECS
+    print "Uploading " + fname + " to ECS"
+    k = docadmin_s3.new_key(fname)
+    k.set_contents_from_filename("uploads/" + fname)
+    k.set_acl('public-read')
+    # Finally remove the file from our container. We don't want to fill it up ;-)
+##    os.remove("uploads/" + fname)
+    return
+
 ##################
 # Error Handlers #
 ##################
@@ -662,7 +740,7 @@ def qrgen(dogid):
 def hstatus():
     apiuri = "/api/v1/handler/hstatus"
 
-    handler_status = requests.get(handlerapi_server+apiuri)
+    handler_status = requests.get(handler_api+apiuri)
     if handler_status:
         response = {'status': "Handlers API returns my ping"}
         code = 200
@@ -701,4 +779,4 @@ def uid():
     return "Your user ID is : " + uuid
 
 if __name__ == "__main__":
-	app.run(debug=False, host='0.0.0.0', port=int(os.getenv('PORT', '5000')), threaded=True)
+	app.run(debug=False, host='0.0.0.0', port=int(os.getenv('PORT', '5030')), threaded=True)

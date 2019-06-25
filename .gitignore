@@ -2,4 +2,5 @@
 *.pyc
 .vscode/*
 *.env
+setenv.py
 

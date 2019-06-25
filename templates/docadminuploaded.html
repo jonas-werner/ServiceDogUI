@@ -1,0 +1,84 @@
+
+
+{% include 'head.html' %}
+<!-- Content -->
+<div class="container">
+   <!--Grid row-->
+   <div class="row wow fadeIn">
+
+      <!--Grid column-->
+      <div class="col-md-6 mb-4 white-text text-center text-md-left">
+         <!--Card-->
+         <div class="card">
+            <!--Card content-->
+            <div class="card-body">
+               <h1 class="animated fadeIn text-muted">Registration complete</h1>
+                  <table spacing=2>
+                    <tr>
+                      <td><p class="animated fadeIn text-muted">Dog ID:</p></td>
+                      <td><p class="animated fadeIn text-muted">{{ dogid }}</p></td>
+                    </tr>
+                    <tr>
+                        <td><p class="animated fadeIn text-muted">Registration ID:</p></td>
+                        <td><p class="animated fadeIn text-muted">{{ dog_details["registration_id"] }}</p></td>
+                      </tr>
+                      <tr>
+                      <td><p class="animated fadeIn text-muted">Dog name:</p></td>
+                      <td><p class="animated fadeIn text-muted">{{ dog_details["name"] }}</p></td>
+                    </tr>
+                    <tr>
+                        <td><p class="animated fadeIn text-muted">Pedigree:</p></td>
+                        <td><p class="animated fadeIn text-muted">{{ dog_details["pedigree"] }}</p></td>
+                    </tr>
+                    <tr>
+                      <td><p class="animated fadeIn text-muted">Vaccination Status:</p></td>
+                      <td><p class="animated fadeIn text-muted">{{ dog_details["vacc_status"] }}</p></td>
+                    </tr>
+                    <tr>
+                        <td><p class="animated fadeIn text-muted">Registration Status:</p></td>
+                        <td><p class="animated fadeIn text-muted">{{ dog_details["reg_status"] }}</p></td>
+                    </tr>
+                    <tr>
+                      <td><p class="animated fadeIn text-muted">Handler ID:</p></td>
+                      <td><p class="animated fadeIn text-muted">{{ dog_details["handler_id"] }}</p></td>
+                    </tr>
+                    </table>
+
+                  <br><br>
+
+                  <a href="/admin" class="btn btn-indigo">Back to admin menu</a>
+
+            </div>
+         </div>
+      </div>
+      <!--Grid column-->
+
+      <!--Grid column-->
+      <div class="col-md-6 mb-4 white-text text-center text-md-left">
+         <!--Card-->
+         <div class="card">
+            <!--Card content-->
+            <div class="card-body">
+               <!-- Main heading -->
+               <h1 class="animated fadeIn text-muted">Photo and Qrcode</h1>
+               <!-- Main heading -->
+               <table>
+                     <tr>
+                        <td class="animated fadeIn text-muted" width=50%></td>
+                        <td class="animated fadeIn text-muted" ></td>
+                     </tr>
+
+                     <tr><td><img src=" {{ photo }} " style="max-width:100%"/></td><td><img src=" {{ qrcode }} " style="max-width:100%"></td>
+                </table>
+               <center><img src="{{ url_for('static', filename='servicedoglogo.jpg') }}" width="270" /></center>
+            </div>
+         </div>
+      </div>
+      <!--Grid column-->
+
+
+   </div>
+   <!--Grid row-->
+</div>
+<!-- Content -->
+{% include 'tail.html' %}

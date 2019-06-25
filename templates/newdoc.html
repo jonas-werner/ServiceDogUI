@@ -1,0 +1,75 @@
+
+
+{% include 'head.html' %}
+<!-- Content -->
+<div class="container">
+   <!--Grid row-->
+   <div class="row wow fadeIn">
+      <!--Grid column-->
+      <div class="col-md-6 mb-4 white-text text-center text-md-left">
+         <!--Card-->
+         <div class="card">
+            <!--Card content-->
+            <div class="card-body">
+               <!-- Main heading -->
+               <h1 class="animated fadeIn text-muted">WELCOME</h1>
+               <p class="animated fadeIn text-muted">This is the registry of Service Dogs and Handlers. <br><br>Please make your selection using the top menu.
+                  Status of service dogs and their certified handlers can be verified without the need to log in.
+                  Other services require an active and valid login.
+               </p>
+               <center>><img src="{{ url_for('static', filename='servicedoglogo.jpg') }}" width="270" /></center>
+               <!-- Main heading -->
+            </div>
+         </div>
+      </div>
+      <!--Grid column-->
+      <!--Grid column-->
+      <div class="col-md-6 mb-4 white-text text-center text-md-left">
+         <!--Card-->
+         <div class="card">
+            <!--Card content-->
+            <div class="card-body">
+               <h1 class="animated fadeIn text-muted">NEW DOCUMENT UPLOAD</h1>
+               <br>
+               <form method="post" action="{{ url_for('addocoprocess') }}" enctype="multipart/form-data">
+                  <table spacing=2>
+
+                   <tr>
+                      <td><p class="animated fadeIn text-muted">Handler ID</p></td>
+                      <td><input type="text" name="handler_id" style="width: 150px; height: 30px"></td>
+                    </tr>
+                    <tr>
+                     <td><p class="animated fadeIn text-muted">Dog ID</p></td>
+                     <td><input type="text" name="dog_id" style="width: 150px; height: 30px"></td>
+                   </tr>
+                   <tr>
+                      <td><p class="animated fadeIn text-muted">Document Type</p></td>
+                      <td><p class="animated fadeIn text-muted">
+					  <input type="radio" name="doco_type" value="True" checked="checked"> Vaccination
+					  <input type="radio" name="doco_type" value="False"> Health Check
+                      <input type="radio" name="doco_type" value="False"> Training</p></td>
+                    </tr>
+
+                  <tr>
+                      <td><p class="animated fadeIn text-muted">Upload a Document</p></td>
+                      <td><input type="file" name="file" class="animated fadeIn text-muted"></td>
+                    </tr>
+                  </table>
+
+                  <br><br>
+                  <table>
+                    <tr>
+                      <td><input class="btn btn-indigo" type="submit" value="SUBMIT"/></td>
+                      <td><a href="/admin" class="btn btn-red">Cancel</a></td>
+                    </tr>
+                  </table>
+               </form>
+            </div>
+         </div>
+      </div>
+      <!--Grid column-->
+   </div>
+   <!--Grid row-->
+</div>
+<!-- Content -->
+{% include 'tail.html' %}
