@@ -382,11 +382,8 @@ def editdog():
 @app.route('/editdogshowcurrent.html', methods=['GET','POST'])
 def editdogshowcurrent():
 
-    ### This is a Work-in-progress
-    # Trying to create another entrypoint to edit dog directly from viewdog pages
-    # if request.method == 'GET':
-    #     dogid = request.args.get['dogid']
-
+    if request.method == 'GET':
+        dogid = request.args.get('dogid')
 
     if request.method == 'POST':
         dogid = request.form['dogid']
