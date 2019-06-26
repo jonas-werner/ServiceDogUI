@@ -68,8 +68,8 @@ handlersname = ''
 
 
 ## Identify where we're running
-# if 'VCAP_SERVICES' in os.environ:
-if 1 == 1:
+if 'VCAP_SERVICES' in os.environ:
+#if 1 == 1:
     #m3api_server= "http://vk-m3engine.cfapps.io"
     #handler_api = "http://handlers.cfapps.io"
     #handler_api = "http://handlerservice.cfapps.io"
@@ -83,7 +83,7 @@ else:
     handler_api = "http://127.0.0.1:5010"
     dog_api = "http://127.0.0.1:5020"
 ##    ui_url = "http://127.0.0.1:5030"
-    docadmin_api = "http://127.0.0.1:5040"
+    docadmin_api = "http://127.0.0.1:5140"
     auth_api = "http://127.0.0.1:5050"    
 
 my_uuid = str(uuid.uuid1())
@@ -201,14 +201,13 @@ def addoc():
 def addocoprocess():
 
     doc_details = request.form.to_dict()
-    print doc_details
+    print ("doc_details:" ), doc_details
 
     # Call the docadmin service to insert new document record, expect 
     url = docadmin_api + "/api/v1.0/doco"
     api_resp = requests.post(url, json=doc_details)
-    print api_resp.content
     dict_resp = json.loads(api_resp.content)
-
+    
     # The following line returns the instance's unique mongodb _id and stores in docid variable
     # docid is used as part of document name in S3 bucket
     docid = dict_resp["doco"]["id"]
@@ -219,34 +218,21 @@ def addocoprocess():
     # First get the file name and see if it's secure
     if myfile and allowed_file(myfile.filename):
         upload_doc(myfile, docname)
-        set_doc_status(docid,uploaded)
+
     # This is how the document will be reached
-    docuri = "http://" + namespace + ".public.ecstestdrive.com/" + docadmin_s3 + "/" + docname
+    docuri = "http://" + namespace + ".public.ecstestdrive.com/" + docadmin_bname + "/" + docname
+    namedata = {"name": docuri}
+    doc_url = url + "/" + docid
+    name_resp = requests.put(doc_url, json=namedata)
+
+    # We now need to load the full document details in
+    doc_response = requests.get(doc_url)
+    alldoc_details = json.loads(doc_response.content)
     
-    resp = make_response(render_template('docadminuploaded.html', doc_details=alldoc_details))
+    resp = make_response(render_template('docadminuploaded.html', id=docid, doc_details=alldoc_details["doco"]))
     return resp
 
-def set_doc_status(docid,status):
-    # Set document status, it can be any of -
-    # uploaded: initial state when doc is first uploaded
-    # processed: once an operator eyeballs the doc and has visually verified
-    # retired: doc is retired due to expired or superceded
-    # We're not running any checks at this stage, just setting the status
-    url = docadmin_api + "/api/v1.0/doco/" + docid
-    print url
-    doc_status = status
-    api_resp = requests.put(url, json=doc_status)
-
-    return
-
-def set_doc_name(docid,docuri):
-    # Set document name to S3 bucket URI
-    url = docadmin_api + "/api/v1.0/doco/" + docid
-    name = docuri
-    api_resp = requests.put(url, json=name)
-
-    return
-    
+   
 ######################
 # Dog-related routes #
 ######################

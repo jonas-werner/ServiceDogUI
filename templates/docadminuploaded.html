@@ -12,35 +12,27 @@
          <div class="card">
             <!--Card content-->
             <div class="card-body">
-               <h1 class="animated fadeIn text-muted">Registration complete</h1>
+               <h1 class="animated fadeIn text-muted">Document upload complete</h1>
                   <table spacing=2>
                     <tr>
-                      <td><p class="animated fadeIn text-muted">Dog ID:</p></td>
-                      <td><p class="animated fadeIn text-muted">{{ dogid }}</p></td>
+                      <td><p class="animated fadeIn text-muted">DocumentID:</p></td>
+                      <td><p class="animated fadeIn text-muted">{{ id }}</p></td>
                     </tr>
                     <tr>
-                        <td><p class="animated fadeIn text-muted">Registration ID:</p></td>
-                        <td><p class="animated fadeIn text-muted">{{ dog_details["registration_id"] }}</p></td>
+                        <td><p class="animated fadeIn text-muted">DogID:</p></td>
+                        <td><p class="animated fadeIn text-muted">{{ doc_details["dog_id"] }}</p></td>
                       </tr>
                       <tr>
-                      <td><p class="animated fadeIn text-muted">Dog name:</p></td>
-                      <td><p class="animated fadeIn text-muted">{{ dog_details["name"] }}</p></td>
+                      <td><p class="animated fadeIn text-muted">HandlerID:</p></td>
+                      <td><p class="animated fadeIn text-muted">{{ doc_details["handler_id"] }}</p></td>
                     </tr>
                     <tr>
-                        <td><p class="animated fadeIn text-muted">Pedigree:</p></td>
-                        <td><p class="animated fadeIn text-muted">{{ dog_details["pedigree"] }}</p></td>
+                        <td><p class="animated fadeIn text-muted">Location:</p></td>
+                        <td><p class="animated fadeIn text-muted">{{ doc_details["name"] }}</p></td>
                     </tr>
                     <tr>
-                      <td><p class="animated fadeIn text-muted">Vaccination Status:</p></td>
-                      <td><p class="animated fadeIn text-muted">{{ dog_details["vacc_status"] }}</p></td>
-                    </tr>
-                    <tr>
-                        <td><p class="animated fadeIn text-muted">Registration Status:</p></td>
-                        <td><p class="animated fadeIn text-muted">{{ dog_details["reg_status"] }}</p></td>
-                    </tr>
-                    <tr>
-                      <td><p class="animated fadeIn text-muted">Handler ID:</p></td>
-                      <td><p class="animated fadeIn text-muted">{{ dog_details["handler_id"] }}</p></td>
+                      <td><p class="animated fadeIn text-muted">Status:</p></td>
+                      <td><p class="animated fadeIn text-muted">{{ doc_details["status"] }}</p></td>
                     </tr>
                     </table>
 
