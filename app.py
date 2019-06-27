@@ -77,13 +77,13 @@ if 'VCAP_SERVICES' in os.environ:
     handler_api = os.environ['HANDLER_API']
     dog_api = os.environ['DOG_API']
     ui_url=os.environ['UI_URL']
-    docadmin_api = os.environ['DOCADMIN_API']
+    doco_api = os.environ['DOCO_API']
 
 else:
     handler_api = "http://127.0.0.1:5010"
     dog_api = "http://127.0.0.1:5020"
-##    ui_url = "http://127.0.0.1:5030"
-    docadmin_api = "http://127.0.0.1:5140"
+    ui_url = "http://127.0.0.1:5030"
+    doco_api = "http://127.0.0.1:5140"
     auth_api = "http://127.0.0.1:5050"    
 
 my_uuid = str(uuid.uuid1())
@@ -204,7 +204,7 @@ def addocoprocess():
     print ("doc_details:" ), doc_details
 
     # Call the docadmin service to insert new document record, expect 
-    url = docadmin_api + "/api/v1.0/doco"
+    url = doco_api + "/api/v1.0/doco"
     api_resp = requests.post(url, json=doc_details)
     dict_resp = json.loads(api_resp.content)
     
