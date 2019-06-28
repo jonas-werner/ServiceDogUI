@@ -18,17 +18,21 @@
                       <td><p class="animated fadeIn text-muted">DocumentID:</p></td>
                       <td><p class="animated fadeIn text-muted">{{ id }}</p></td>
                     </tr>
+					<tr>
+                      <td><p class="animated fadeIn text-muted">DocumentType:</p></td>
+                      <td><p class="animated fadeIn text-muted">{{ doc_details["doco_type"] }}</p></td>
+                    </tr>
                     <tr>
-                        <td><p class="animated fadeIn text-muted">DogID:</p></td>
-                        <td><p class="animated fadeIn text-muted">{{ doc_details["dog_id"] }}</p></td>
+                      <td><p class="animated fadeIn text-muted">DogID:</p></td>
+                      <td><p class="animated fadeIn text-muted">{{ doc_details["dog_id"] }}</p></td>
                       </tr>
                       <tr>
                       <td><p class="animated fadeIn text-muted">HandlerID:</p></td>
                       <td><p class="animated fadeIn text-muted">{{ doc_details["handler_id"] }}</p></td>
                     </tr>
                     <tr>
-                        <td><p class="animated fadeIn text-muted">Location:</p></td>
-                        <td><p class="animated fadeIn text-muted">{{ doc_details["name"] }}</p></td>
+                      <td><p class="animated fadeIn text-muted">Location:</p></td>
+                      <td><p class="animated fadeIn text-muted">{{ doc_details["name"] }}</p></td>
                     </tr>
                     <tr>
                       <td><p class="animated fadeIn text-muted">Status:</p></td>
@@ -44,30 +48,6 @@
          </div>
       </div>
       <!--Grid column-->
-
-      <!--Grid column-->
-      <div class="col-md-6 mb-4 white-text text-center text-md-left">
-         <!--Card-->
-         <div class="card">
-            <!--Card content-->
-            <div class="card-body">
-               <!-- Main heading -->
-               <h1 class="animated fadeIn text-muted">Photo and Qrcode</h1>
-               <!-- Main heading -->
-               <table>
-                     <tr>
-                        <td class="animated fadeIn text-muted" width=50%></td>
-                        <td class="animated fadeIn text-muted" ></td>
-                     </tr>
-
-                     <tr><td><img src=" {{ photo }} " style="max-width:100%"/></td><td><img src=" {{ qrcode }} " style="max-width:100%"></td>
-                </table>
-               <center><img src="{{ url_for('static', filename='servicedoglogo.jpg') }}" width="270" /></center>
-            </div>
-         </div>
-      </div>
-      <!--Grid column-->
-
 
    </div>
    <!--Grid row-->

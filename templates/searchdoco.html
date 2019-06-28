@@ -1,0 +1,46 @@
+
+{% include 'head.html' %}
+
+
+
+<!-- Content -->
+<div class="container">
+   <!--Grid row-->
+   <div class="row wow fadeIn">
+
+      <!--Grid column-->
+      <div class="col-md-6 mb-4 white-text text-center text-md-left">
+         <!--Card-->
+         <div class="card">
+            <!--Card content-->
+            <div class="card-body">
+				<h1 class="animated fadeIn text-muted">DOCUMENT SEARCH</h1>
+				<hr>
+        <br><br>
+        <form method="post" action="{{ url_for('searchdocoresults') }}">
+			<h3 class="animated fadeIn text-muted">Select search criteria:</h3>
+			  <select name="criteria">
+				<option value="doco_type">Document Type</option>
+				<option value="status">Document Status</option>
+				<option value="handler_id">Handler ID</option>
+				<option value="dog_id">Dog ID</option>
+			  </select>
+			<h3 class="animated fadeIn text-muted">Select match criteria:</h3>
+			<input type="text" name="match" value=""><br><br>
+
+              <input class="btn btn-indigo" type="submit" value="SUBMIT"/>
+            </form>
+  				  <br><br>
+					<hr>
+          <!-- Main heading -->
+       </div>
+    </div>
+  </div>
+  <!--Grid column-->
+  </div>
+  <!--Grid row-->
+  </div>
+  <!-- Content -->
+
+
+  {% include 'tail.html' %}

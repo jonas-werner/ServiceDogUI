@@ -1,0 +1,52 @@
+
+{% include 'head.html' %}
+
+
+
+<!-- Content -->
+<div class="container">
+   <!--Grid row-->
+   <div class="row wow fadeIn">
+
+      <!--Grid column-->
+      <div class="col-md-10 mb-4 white-text text-md-left">
+         <!--Card-->
+         <div class="card">
+            <!--Card content-->
+            <div class="card-body">
+				<h1 class="animated fadeIn text-muted">DOCUMENT SEARCH RESULTS</h1>
+            <table class="table table-striped" style="display: block; overflow-x: auto; white-space: nowrap;">
+               <tr>
+                  <td class="animated fadeIn text-muted">Handler ID</td>
+                  <td class="animated fadeIn text-muted">Dog ID</td>
+                  <td class="animated fadeIn text-muted">Document Type</td>
+                  <td class="animated fadeIn text-muted">Location</td>
+                  <td class="animated fadeIn text-muted">Status</td>
+               </tr>
+			{% for doco in results %}
+               <tr>
+                  <td class="animated fadeIn text-muted">{{ results["handler_id"] }}</td>
+				  <td class="animated fadeIn text-muted">{{ results["dog_id"] }}</td>
+                  <td class="animated fadeIn text-muted">{{ results["doco_type"] }}</td>
+                  <td class="animated fadeIn text-muted">{{ results["name"] }}</td>
+                  <td class="animated fadeIn text-muted">{{ results["status"] }}</td>
+               </tr>
+			{% endfor %}
+            </table>
+            <br>
+            <a href="/admin" class="btn btn-indigo">Back to admin menu</a>
+
+             <!-- Main heading -->
+            </div>
+         </div>
+      </div>
+      <!--Grid column-->
+
+
+   </div>
+   <!--Grid row-->
+</div>
+<!-- Content -->
+
+
+  {% include 'tail.html' %}

@@ -223,7 +223,9 @@ def addocoprocess():
     docuri = "http://" + namespace + ".public.ecstestdrive.com/" + docadmin_bname + "/" + docname
     namedata = {"name": docuri}
     doc_url = url + "/" + docid
+##    print ("Put local doc: ", docname, " at: ", doc_url)
     name_resp = requests.put(doc_url, json=namedata)
+##    print ("Operation: ", name_resp)
 
     # We now need to load the full document details in
     doc_response = requests.get(doc_url)
@@ -232,7 +234,53 @@ def addocoprocess():
     resp = make_response(render_template('docadminuploaded.html', id=docid, doc_details=alldoc_details["doco"]))
     return resp
 
-   
+# Search for document
+@app.route('/searchdoco')
+def searchdoco():
+    resp = make_response(render_template('searchdoco.html', viewdoco="viewdoco"))
+    return resp
+    
+@app.route('/searchdocoresults', methods=['POST']) # displays result of search in searchdoco
+def searchdocoresults():
+
+    criteria = request.form['criteria']
+    match = request.form['match'].lower()
+    print "Searching for {} = {}".format(criteria.lower(), match.lower())
+
+    if criteria == "handler_id" and match == "none":
+        match = None
+        print type(match)
+    payload = {criteria : match}
+    print ("payload", payload)
+    url = doco_api + "/api/v1.0/search"
+    response = requests.put(url, json=payload)
+    print ("response: ", response)
+    dict_resp = json.loads(response.content)
+    print ("This should be content...", dict_resp)
+
+    resp = make_response(render_template('searchdocoresults.html', results=dict_resp["documents"]))
+    return resp
+
+### View document details by providing its unique ID
+@app.route('/viewdoco')
+def viewdoco():
+
+    global username
+    userid = "admin"
+
+    doco_id = request.args.get('id')
+    url = doco_api + "/api/v1.0/doco/" + doco_id
+    response = requests.get(url)
+    dict_resp = json.loads(response.content)
+
+    document = "http://" + namespace + ".public.ecstestdrive.com/" + bname + "/" + doco_id + ".jpg"
+    
+    resp = make_response(render_template('viewdoco.html', doco_id=doco_id, doco_details=dict_resp["doco"], document=document))
+    return resp
+
+def str2bool(v):
+    return v.lower() in ("true")
+
 ######################
 # Dog-related routes #
 ######################

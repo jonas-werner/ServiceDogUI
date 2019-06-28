@@ -1,0 +1,58 @@
+
+{% include 'head.html' %}
+
+
+
+<!-- Content -->
+<div class="container">
+   <!--Grid row-->
+   <div class="row wow fadeIn">
+
+      <!--Grid column-->
+      <div class="col-md-6 mb-4 white-text text-md-left">
+         <!--Card-->
+         <div class="card">
+            <!--Card content-->
+            <div class="card-body">
+				<h1 class="animated fadeIn text-muted">DOCUMENT INFO</h1>
+				<hr>
+            <table>
+			   <tr>
+                  <td class="animated fadeIn text-muted" width=50%>Handler ID:</td>
+                  <td class="animated fadeIn text-muted" width=50%>{{ doco_details["handler_id"] }}</td>
+               </tr>
+               <tr>
+                  <td class="animated fadeIn text-muted" width=50%>Dog ID:</td>
+                  <td class="animated fadeIn text-muted" name="dog_id" width=50%>{{ dog_id }}</td>
+               </tr>
+               <tr>
+                  <td class="animated fadeIn text-muted" width=50%>Document ID:</td>
+                  <td class="animated fadeIn text-muted" width=50%>{{ doco_details["id"] }}</td>
+               </tr>
+               <tr>
+                  <td class="animated fadeIn text-muted" width=50%>Location:</td>
+                  <td class="animated fadeIn text-muted" width=50%>{{ doco_details["name"] }}</td>
+               </tr>
+               <tr>
+                  <td class="animated fadeIn text-muted" width=50%>Document Status:</td>
+                  <td class="animated fadeIn text-muted" width=50%>{{ doco_details["status"] }}</td>
+               </tr>
+
+            </table>
+            <br>
+            <a href="/admin" class="btn btn-indigo">Back to admin menu</a>
+            <a href="/editdogshowcurrent.html?dogid={{ dogid }}" class="btn btn-indigo">Edit this Document</a>
+
+             <!-- Main heading -->
+            </div>
+         </div>
+      </div>
+      <!--Grid column-->
+
+   </div>
+   <!--Grid row-->
+</div>
+<!-- Content -->
+
+
+  {% include 'tail.html' %}
