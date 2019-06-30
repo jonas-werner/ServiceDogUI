@@ -20,16 +20,14 @@
                   <td class="animated fadeIn text-muted">Handler ID</td>
                   <td class="animated fadeIn text-muted">Dog ID</td>
                   <td class="animated fadeIn text-muted">Document Type</td>
-                  <td class="animated fadeIn text-muted">Location</td>
                   <td class="animated fadeIn text-muted">Status</td>
                </tr>
 			{% for doco in results %}
                <tr>
-                  <td class="animated fadeIn text-muted">{{ results["handler_id"] }}</td>
-				  <td class="animated fadeIn text-muted">{{ results["dog_id"] }}</td>
-                  <td class="animated fadeIn text-muted">{{ results["doco_type"] }}</td>
-                  <td class="animated fadeIn text-muted">{{ results["name"] }}</td>
-                  <td class="animated fadeIn text-muted">{{ results["status"] }}</td>
+                  <td class="animated fadeIn text-muted">{{ doco["handler_id"] }}</td>
+				  <td class="animated fadeIn text-muted">{{ doco["dog_id"] }}</td>
+                  <td class="animated fadeIn text-muted">{{ doco["doco_type"] }}</td>
+                  <td class="animated fadeIn text-muted">{{ doco["status"] }}</td>
                </tr>
 			{% endfor %}
             </table>

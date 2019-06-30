@@ -8,6 +8,27 @@
    <!--Grid row-->
    <div class="row wow fadeIn">
 
+        <!--Grid column-->
+     <div class="col-md-6 mb-4 white-text text-center text-md-left">
+        <!--Card-->
+        <div class="card">
+           <!--Card content-->
+           <div class="card-body">
+              <!-- Main heading -->
+              <h1 class="animated fadeIn text-muted">WELCOME</h1>
+              <p class="animated fadeIn text-muted">This is the registry of Service Dogs and Handlers. <br><br>Please make your selection using the top menu.
+                 Status of service dogs and their certified handlers can be verified without the need to log in.
+                 Other services require an active and valid login.
+              </p>
+              <center><img src="{{ url_for('static', filename='servicedoglogo.jpg') }}" width="270" /></center>
+              <!-- Main heading -->
+           </div>
+        </div>
+     </div>
+     <!--Grid column-->
+
+
+	 
       <!--Grid column-->
       <div class="col-md-6 mb-4 white-text text-md-left">
          <!--Card-->
@@ -18,20 +39,16 @@
 				<hr>
             <table>
 			   <tr>
+                  <td class="animated fadeIn text-muted" width=50%>Document ID:</td>
+                  <td class="animated fadeIn text-muted" width=50%>{{ doco_details["id"] }}</td>
+               </tr>
+			   <tr>
                   <td class="animated fadeIn text-muted" width=50%>Handler ID:</td>
                   <td class="animated fadeIn text-muted" width=50%>{{ doco_details["handler_id"] }}</td>
                </tr>
                <tr>
                   <td class="animated fadeIn text-muted" width=50%>Dog ID:</td>
-                  <td class="animated fadeIn text-muted" name="dog_id" width=50%>{{ dog_id }}</td>
-               </tr>
-               <tr>
-                  <td class="animated fadeIn text-muted" width=50%>Document ID:</td>
-                  <td class="animated fadeIn text-muted" width=50%>{{ doco_details["id"] }}</td>
-               </tr>
-               <tr>
-                  <td class="animated fadeIn text-muted" width=50%>Location:</td>
-                  <td class="animated fadeIn text-muted" width=50%>{{ doco_details["name"] }}</td>
+                  <td class="animated fadeIn text-muted" name="dog_id" width=50%>{{ doco_details["dog_id"] }}</td>
                </tr>
                <tr>
                   <td class="animated fadeIn text-muted" width=50%>Document Status:</td>
