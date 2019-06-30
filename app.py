@@ -268,14 +268,16 @@ def viewdoco():
     global username
     userid = "admin"
 
-    doco_id = request.args.get('id')
+    doco_id = request.args.get('doco_id')
     url = doco_api + "/api/v1.0/doco/" + doco_id
+    
     response = requests.get(url)
     dict_resp = json.loads(response.content)
 
-    document = "http://" + namespace + ".public.ecstestdrive.com/" + bname + "/" + doco_id + ".jpg"
-    
-    resp = make_response(render_template('viewdoco.html', doco_id=doco_id, doco_details=dict_resp["doco"], document=document))
+##    document = "http://" + namespace + ".public.ecstestdrive.com/" + docadmin_bname + "/" + doco_id + ".pdf"
+
+##    resp = make_response(render_template('viewhandler.html', handlerinfo=dict_resp["handler"], h_id=h_id))
+    resp = make_response(render_template('viewdoco.html', doco_id=doco_id, doco_details=dict_resp["doco"]))
     return resp
 
 def str2bool(v):

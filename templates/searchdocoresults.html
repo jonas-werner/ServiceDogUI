@@ -19,13 +19,15 @@
                <tr>
                   <td class="animated fadeIn text-muted">Handler ID</td>
                   <td class="animated fadeIn text-muted">Dog ID</td>
+				  <td class="animated fadeIn text-muted">Document ID</td>
                   <td class="animated fadeIn text-muted">Document Type</td>
-                  <td class="animated fadeIn text-muted">Status</td>
+                  <td class="animated fadeIn text-muted">Document Status</td>
                </tr>
 			{% for doco in results %}
                <tr>
-                  <td class="animated fadeIn text-muted">{{ doco["handler_id"] }}</td>
-				  <td class="animated fadeIn text-muted">{{ doco["dog_id"] }}</td>
+                  <td class="animated fadeIn text-muted"><a href="/viewhandler?h_id={{ doco["handler_id"] }}">{{ doco["handler_id"] }}</a></td>
+				  <td class="animated fadeIn text-muted"><a href="/viewdog?dogid={{ doco["dog_id"] }}">{{ doco["dog_id"] }}</a></td>
+				  <td class="animated fadeIn text-muted"><a href="/viewdoco?doco_id={{ doco["id"] }}">{{ doco["id"] }}</a></td>
                   <td class="animated fadeIn text-muted">{{ doco["doco_type"] }}</td>
                   <td class="animated fadeIn text-muted">{{ doco["status"] }}</td>
                </tr>

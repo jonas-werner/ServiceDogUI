@@ -38,18 +38,23 @@
 				<h1 class="animated fadeIn text-muted">DOCUMENT INFO</h1>
 				<hr>
             <table>
-			   <tr>
-                  <td class="animated fadeIn text-muted" width=50%>Document ID:</td>
-                  <td class="animated fadeIn text-muted" width=50%>{{ doco_details["id"] }}</td>
-               </tr>
+
 			   <tr>
                   <td class="animated fadeIn text-muted" width=50%>Handler ID:</td>
-                  <td class="animated fadeIn text-muted" width=50%>{{ doco_details["handler_id"] }}</td>
+                  <td class="animated fadeIn text-muted" width=50%><a href="/viewhandler?h_id={{ doco_details["handler_id"] }}">{{ doco_details["handler_id"] }}</a></td>
                </tr>
                <tr>
                   <td class="animated fadeIn text-muted" width=50%>Dog ID:</td>
-                  <td class="animated fadeIn text-muted" name="dog_id" width=50%>{{ doco_details["dog_id"] }}</td>
+                  <td class="animated fadeIn text-muted" width=50%><a href="/viewdog?dogid={{ doco_details["dog_id"] }}">{{ doco_details["dog_id"] }}</a></td>
                </tr>
+			   <tr>
+                  <td class="animated fadeIn text-muted" width=50%>Document ID:</td>
+                  <td class="animated fadeIn text-muted" width=50%><a href="{{ doco_details["name"] }}">{{ doco_id }}</a></td>
+               </tr>
+			   <tr>
+                  <td class="animated fadeIn text-muted" width=50%>Document Type:</td>
+                  <td class="animated fadeIn text-muted" width=50%>{{ doco_details["doco_type"] }}</td>
+               </tr>			   
                <tr>
                   <td class="animated fadeIn text-muted" width=50%>Document Status:</td>
                   <td class="animated fadeIn text-muted" width=50%>{{ doco_details["status"] }}</td>
