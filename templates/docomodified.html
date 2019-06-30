@@ -29,29 +29,34 @@
          <div class="card">
             <!--Card content-->
             <div class="card-body">
-               <h1 class="animated fadeIn text-muted">Document upload complete</h1>
+               <h1 class="animated fadeIn text-muted">Modification complete</h1>
                   <table spacing=2>
-				    <tr>
+                    <tr>
+                      <td><p class="animated fadeIn text-muted">Handler ID:</p></td>
+                      <td><a href="/viewhandler?h_id={{ doco_details["handler_id"] }}"><p class="animated fadeIn text-muted">{{ doco_details["handler_id"] }}</p></a></td>
+                    </tr>
+                    <tr>
                       <td><p class="animated fadeIn text-muted">Dog ID:</p></td>
-                      <td><p class="animated fadeIn text-muted">{{ doc_details["dog_id"] }}</p></td>
+                      <td><a href="/viewdog?dogid={{ doco_details["dog_id"] }}"><p class="animated fadeIn text-muted">{{ doco_details["dog_id"] }}</p></a></td>
                     </tr>
-					<tr>
+                    <tr>
                       <td><p class="animated fadeIn text-muted">Document ID:</p></td>
-                      <td><p class="animated fadeIn text-muted">{{ doco_id }}</p></td>
+                      <td><a href="{{ doco_details["name"] }}"><p class="animated fadeIn text-muted">{{ doco_id }}</p></a></td>
                     </tr>
-					<tr>
+                    <tr>
                       <td><p class="animated fadeIn text-muted">Document Type:</p></td>
-                      <td><p class="animated fadeIn text-muted">{{ doc_details["doco_type"] }}</p></td>
+                      <td><p class="animated fadeIn text-muted">{{ doco_details["doco_type"] }}</p></td>
                     </tr>
-					<tr>
-                      <td><p class="animated fadeIn text-muted">Status:</p></td>
-                      <td><p class="animated fadeIn text-muted">{{ doc_details["status"] }}</p></td>
+                    <tr>
+                      <td><p class="animated fadeIn text-muted">Document Status:</p></td>
+                      <td><p class="animated fadeIn text-muted">{{ doco_details["status"] }}</p></td>
                     </tr>
                   </table>
 
                   <br><br>
 
-                  <a href="/admin" class="btn btn-indigo">Back to admin menu</a>				  
+                  <a href="/admin" class="btn btn-indigo">Back to admin menu</a>
+
 
             </div>
          </div>

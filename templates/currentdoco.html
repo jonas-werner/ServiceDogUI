@@ -1,0 +1,66 @@
+
+
+{% include 'head.html' %}
+<!-- Content -->
+<div class="container">
+   <!--Grid row-->
+   <div class="row wow fadeIn">
+      <!--Grid column-->
+      <div class="col-md-12 mb-4 white-text text-center text-md-left">
+         <!--Card-->
+         <div class="card">
+            <!--Card content-->
+            <div class="card-body">
+               <!-- Main heading -->
+              <h1 class="animated fadeIn text-muted">MODIFY DOCUMENT DETAILS</h1>
+
+
+              <form method="post" action="{{ url_for('editdocoapplychanges') }}" enctype="multipart/form-data">
+
+<div class="row">
+  <div class="col-md-6 mb-4 white-text text-center text-md-left">
+
+          		<table>
+                  <tr>
+				    <td><p class="animated fadeIn text-muted">Set Handler ID</p></td>
+                    <td><input type="text" name="handler_id" value="{{ doco_details["handler_id"] }}" style="width: 150px; height: 30px"></td>
+                  </tr>
+				    <td><p class="animated fadeIn text-muted">Dog ID</p></td>
+                    <td><input type="text" name="dog_id" value="{{ doco_details["dog_id"] }}" readonly style="width: 150px; height: 30px"></td>
+                  </tr>					
+                    <td><p class="animated fadeIn text-muted">Document ID</p></td>
+                    <td><input type="text" name="doco_id" value="{{ doco_id }}"  readonly style="width: 150px; height: 30px"></td>
+                  </tr>		
+                  <tr>
+                    <td><p class="animated fadeIn text-muted">Document Type</p></td>
+                    <td><input type="text" name="doco_type" value="{{ doco_details["doco_type"] }}" readonly style="width: 150px; height: 30px"></td>
+                  </tr>
+                  <tr>
+                    <td><p class="animated fadeIn text-muted">Set document status:</p></td>
+                    <td><p class="animated fadeIn text-muted">
+					  <input type="radio" name="status" value="uploaded" checked="checked"> Uploaded
+                      <input type="radio" name="status" value="processed"> Processed</p></td>
+                  </tr>
+                </table>
+               <!-- Main heading -->
+   </div>
+</div>
+
+       			<br><br>
+                <table>
+                  <tr>
+                    <td><input class="btn btn-indigo" type="submit" value="SUBMIT"/></td>
+                    <td><a href="/admin" class="btn btn-red">Cancel</a></td>
+                  </tr>
+                </table>
+
+              </form>
+          </div>
+       </div>
+    </div>
+    <!--Grid column-->
+ </div>
+ <!--Grid row-->
+</div>
+<!-- Content -->
+{% include 'tail.html' %}

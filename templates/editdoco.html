@@ -29,36 +29,29 @@
          <div class="card">
             <!--Card content-->
             <div class="card-body">
-               <h1 class="animated fadeIn text-muted">Document upload complete</h1>
-                  <table spacing=2>
-				    <tr>
-                      <td><p class="animated fadeIn text-muted">Dog ID:</p></td>
-                      <td><p class="animated fadeIn text-muted">{{ doc_details["dog_id"] }}</p></td>
-                    </tr>
-					<tr>
-                      <td><p class="animated fadeIn text-muted">Document ID:</p></td>
-                      <td><p class="animated fadeIn text-muted">{{ doco_id }}</p></td>
-                    </tr>
-					<tr>
-                      <td><p class="animated fadeIn text-muted">Document Type:</p></td>
-                      <td><p class="animated fadeIn text-muted">{{ doc_details["doco_type"] }}</p></td>
-                    </tr>
-					<tr>
-                      <td><p class="animated fadeIn text-muted">Status:</p></td>
-                      <td><p class="animated fadeIn text-muted">{{ doc_details["status"] }}</p></td>
-                    </tr>
-                  </table>
+              <h1 class="animated fadeIn text-muted">Edit document record</h1>
+          		<form method="post" action="{{ url_for('editdocoshowcurrent') }}" enctype="multipart/form-data">
 
-                  <br><br>
+				<br><br>
+          		<table>
+                  <tr>
+                    <td><h4 class="animated fadeIn text-muted">Document ID to edit: </h4></td>
+                    <td width=10></td>
+                    <td><input type="text" name="doco_id" value="{{ doco_id }}" style="width: 150px; height: 30px"></td>
+                  </tr>
+                </table>
 
-                  <a href="/admin" class="btn btn-indigo">Back to admin menu</a>				  
 
-            </div>
-         </div>
-      </div>
-      <!--Grid column-->
-   </div>
-   <!--Grid row-->
+                <br><br>
+
+          		  <input class="btn btn-indigo" type="submit" value="SUBMIT"/>
+          		</form>
+          </div>
+       </div>
+    </div>
+    <!--Grid column-->
+ </div>
+ <!--Grid row-->
 </div>
 <!-- Content -->
 {% include 'tail.html' %}

@@ -208,12 +208,12 @@ def addocoprocess():
     api_resp = requests.post(url, json=doc_details)
     dict_resp = json.loads(api_resp.content)
     
-    # The following line returns the instance's unique mongodb _id and stores in docid variable
-    # docid is used as part of document name in S3 bucket
-    docid = dict_resp["doco"]["id"]
-    docname = docid + ".pdf"
+    # The following line returns the instance's unique mongodb _id and stores in doco_id variable
+    # doco_id is used as part of document name in S3 bucket
+    doco_id = dict_resp["doco"]["id"]
+    docname = doco_id + ".pdf"
 
-    ## Now we can upload the photo with a name based on docid
+    ## Now we can upload the photo with a name based on doco_id
     myfile = request.files['file']
     # First get the file name and see if it's secure
     if myfile and allowed_file(myfile.filename):
@@ -222,7 +222,7 @@ def addocoprocess():
     # This is how the document will be reached
     docuri = "http://" + namespace + ".public.ecstestdrive.com/" + docadmin_bname + "/" + docname
     namedata = {"name": docuri}
-    doc_url = url + "/" + docid
+    doc_url = url + "/" + doco_id
 ##    print ("Put local doc: ", docname, " at: ", doc_url)
     name_resp = requests.put(doc_url, json=namedata)
 ##    print ("Operation: ", name_resp)
@@ -231,7 +231,7 @@ def addocoprocess():
     doc_response = requests.get(doc_url)
     alldoc_details = json.loads(doc_response.content)
     
-    resp = make_response(render_template('docuploaded.html', id=docid, doc_details=alldoc_details["doco"]))
+    resp = make_response(render_template('docuploaded.html', doco_id=doco_id, doc_details=alldoc_details["doco"]))
     return resp
 
 # Search for document
@@ -254,9 +254,9 @@ def searchdocoresults():
     response = requests.put(url, json=payload)
     print ("response: ", response)
     dict_resp = json.loads(response.content)
-    print ("This should be content...")
-    print dict_resp
-    print dict_resp["documents"]
+
+##    print dict_resp
+##    print dict_resp["documents"]
 
     resp = make_response(render_template('searchdocoresults.html', results=dict_resp["documents"]))
     return resp
@@ -280,8 +280,54 @@ def viewdoco():
     resp = make_response(render_template('viewdoco.html', doco_id=doco_id, doco_details=dict_resp["doco"]))
     return resp
 
-def str2bool(v):
-    return v.lower() in ("true")
+@app.route('/editdoco')
+def editdoco():
+    doco_id = ""
+    doco_id = request.args.get('doco_id')
+    resp = make_response(render_template('editdoco.html', doco_id=doco_id))
+    return resp
+
+@app.route('/editdocoshowcurrent.html', methods=['GET','POST'])
+def editdocoshowcurrent():
+
+    if request.method == 'GET':
+        doco_id = request.args.get('doco_id')
+
+    if request.method == 'POST':
+        doco_id = request.form['doco_id']
+
+    ## Now we call the document microservice to read the document
+    url = doco_api + "/api/v1.0/doco/" + doco_id
+    api_resp = requests.get(url)
+    dict_resp = json.loads(api_resp.content)
+    # The response is formatted as { "doco" : {"doco_type":"vaccination", "handler_id":"h_id123"}, {},...}
+    doco_to_edit = dict_resp["doco"]
+    print doco_to_edit
+    docfile = "http://" + namespace + ".public.ecstestdrive.com/" + docadmin_bname + "/" + doco_id + ".pdf"
+
+    resp = make_response(render_template('currentdoco.html', doco_id=doco_id, doco_details=doco_to_edit, name=docfile))
+##    resp = make_response(render_template('currentdoco.html', doco_id=doco_id, doco_details=doco_to_edit))
+
+    return resp
+
+@app.route('/editdocoapplychanges.html', methods=['POST'])
+def editdocoapplychanges():
+
+    doco_details = request.form.to_dict()
+    # print doco_details
+    print("DOCUMENT DETAILS: %s" % doco_details)
+
+    # Call the document microservice to insert it and get a dogid back
+    doco_id = str(request.form['doco_id'])
+    url = doco_api + "/api/v1.0/doco/" + doco_id
+    api_resp = requests.put(url, json=doco_details)
+    dict_resp = json.loads(api_resp.content)
+
+    docfile = "http://" + namespace + ".public.ecstestdrive.com/" + docadmin_bname + "/" + doco_id + ".pdf"
+
+    resp = make_response(render_template('docomodified.html', doco_id=doco_id, doco_details=dict_resp["doco"], name=docfile))
+    return resp
+
 
 ######################
 # Dog-related routes #
